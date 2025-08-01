@@ -1,7 +1,20 @@
-import React from 'react';
-// import ProductCard from '../components/ProductCard'; // Will import later
+import React, { useState, useEffect } from 'react';
+import ProductCard from '../components/ProductCard'; // Import the ProductCard component
+import { fetchProducts } from '../utils/dataHandler'; // Import your data handling function
 
 function ProductList() {
+    const [products, setProducts] = useState([]); // 1. State to hold the products
+
+    useEffect(() => {
+    // 2. Use useEffect to fetch data when the component mounts
+    const getProducts = async () => {
+      const data = await fetchProducts(); // Call your data handler
+      setProducts(data); // Update the state with fetched products
+    };
+
+    getProducts();
+  }, []); // The empty dependency array means this effect runs once after the initial render
+
   return (
 <main className="flex-grow container mx-auto p-6 md:p-10 main-content-layout">
 
