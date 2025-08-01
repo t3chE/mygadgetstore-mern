@@ -1,0 +1,74 @@
+[
+  {
+    "id": "prod001",
+    "name": "UltraBook Pro 13",
+    "category": "laptops",
+    "price": 1299.99,
+    "image": "images/UltraBookPro13.png",
+    "description": "Sleek and powerful laptop with a 13-inch Retina display, 16GB RAM, and 512GB SSD. Perfect for professionals on the go."
+  },
+  {
+    "id": "prod002",
+    "name": "QuantumPhone X",
+    "category": "smartphones",
+    "price": 899.00,
+    "image": "images/QPhoneX.png",
+    "description": "Next-gen smartphone with an edge-to-edge OLED display, AI-powered camera, and all-day battery life."
+  },
+  {
+    "id": "prod003",
+    "name": "Acoustic Beats Headphones",
+    "category": "headphones",
+    "price": 199.50,
+    "image": "images/AcousticBeats.png",
+    "description": "Immersive over-ear headphones with noise-cancellation and crystal-clear audio. Enjoy your music like never before."
+  },
+  {
+    "id": "prod004",
+    "name": "ProShot DSLR Camera",
+    "category": "cameras",
+    "price": 1500.00,
+    "image": "images/ProShotDSLR.png",
+    "description": "Professional-grade DSLR camera with 4K video recording, 24MP sensor, and interchangeable lenses for stunning photography."
+  },
+  {
+    "id": "prod005",
+    "name": "Compact Camcorder 2.0",
+    "category": "cameras",
+    "price": 450.00,
+    "image": "images/ComCam2.0.png",
+    "description": "Easy-to-use compact camcorder with full HD recording and optical zoom. Perfect for capturing family moments."
+  },
+  {
+    "id": "prod006",
+    "name": "Gaming Laptop Beast",
+    "category": "laptops",
+    "price": 1899.99,
+    "image": "images/GLBeast.png",
+    "description": "High-performance gaming laptop with dedicated graphics, fast refresh rate display, and RGB keyboard."
+  },
+  {
+    "id": "prod007",
+    "name": "SmartWatch Pro",
+    "category": "smartphones",
+    "price": 299.00,
+    "image": "images/SmartWatchPro.png",
+    "description": "Stay connected with this sleek smartwatch featuring health tracking, notifications, and long battery life."
+  },
+  {
+    "id": "prod008",
+    "name": "Wireless Earbuds Elite",
+    "category": "headphones",
+    "price": 120.00,
+    "image": "https://placehold.co/300x200/707070/444444?text=Earbuds",
+    "description": "Compact and powerful wireless earbuds with touch controls and a portable charging case."
+  },
+  {
+    "id": "prod009",
+    "name": "GoPro HERO 13",
+    "category": "cameras",
+    "price": 399.99,
+    "image": "images/snoop.png",
+    "description": "Waterproof Action Camera with 5.3K60 Video, 27MP Photo + Compatability with HB-Series Lenses."
+  }
+]
