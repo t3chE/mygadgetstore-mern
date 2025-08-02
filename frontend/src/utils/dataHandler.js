@@ -1,5 +1,3 @@
-// src/utils/dataHandler.js
-// Assuming products.json exists in your public folder
 export const fetchProducts = async () => {
   try {
     const response = await fetch('/products.json'); // Adjust path if needed
