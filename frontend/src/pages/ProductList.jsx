@@ -68,8 +68,7 @@ function ProductList() {
 
             <section id="product-list" className="product-grid">
                 <h2 className="page-title">Explore Our Products</h2> {/* Changed class to className */}
-                <div id="product-cards-container" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"> {/* Added a container div with grid classes */}
-                    {/* Dynamically render ProductCard components */}
+                <div id="product-cards-container">
                     {products.map(product => (
                         <ProductCard key={product.id} product={product} />
                     ))}
