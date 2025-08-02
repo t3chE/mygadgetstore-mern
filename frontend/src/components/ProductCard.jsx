@@ -1,29 +1,37 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import { Link } from 'react-router-dom'; // Correctly imported Link
 
-// The ProductCard component now accepts a 'product' prop
 function ProductCard({ product }) {
-  // Ensure 'product' exists before trying to access its properties
   if (!product) {
-    return null; // Or some placeholder
+    return null;
   }
 
   return (
-     <div className="product-card">
-      <Link to={`/products/${product.id}`}> {/* Use Link for navigation to product detail */}
+    <div className="product-card">
+      {/* Link the image to the product detail page */}
+      <Link to={`/products/${product.id}`}> {/* This is correct! */}
         <img
-          src={product.imageUrl || '/images/placeholder.jpg'} // Use product.imageUrl or a fallback
+          src={product.imageUrl || '/images/placeholder.jpg'}
           alt={product.name}
           className="product-image"
         />
       </Link>
       <h3>
-        <Link to={`/products/${product.id}`} className="product-title">
-          {product.name} {/* Display product name dynamically */}
+        {/* Link the product title to the product detail page */}
+        <Link to={`/products/${product.id}`} className="product-title"> {/* This is also correct! */}
+          {product.name}
         </Link>
       </h3>
-      <p className="product-price">${product.price.toFixed(2)}</p> {/* Display price dynamically */}
+      <p className="product-price">${product.price.toFixed(2)}</p>
       <button className="add-to-cart-button">Add to Cart</button>
+
+      {/* --- ADD EDIT BUTTON LINK HERE --- */}
+      {/* This button will navigate to the edit product form */}
+      {/* You might want to make this button conditionally visible (e.g., only for admins) later */}
+      <Link to={`/edit/${product.id}`} className="edit-product-button">
+        Edit Product
+      </Link>
+
     </div>
   );
 }
