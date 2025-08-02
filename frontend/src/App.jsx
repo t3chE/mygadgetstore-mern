@@ -8,7 +8,9 @@ import Footer from './components/Footer';
 import ProductList from './pages/ProductList';
 import ProductDetail from './pages/ProductDetail';
 import AdminPage from './pages/AdminPage';
-// import NotFoundPage from './pages/NotFoundPage'; // Optional for 404
+import ProductForm from './pages/ProductForm'; // <-- NEW: Assuming you'll create this component
+import NotFoundPage from './pages/NotFoundPage'; // <-- NEW: Assuming you'll create this component
+
 
 function App() {
   return (
@@ -19,8 +21,14 @@ function App() {
           <Route path="/" element={<ProductList />} />
           <Route path="/products/:id" element={<ProductDetail />} />
           <Route path="/admin" element={<AdminPage />} />
-          {/* Add routes for /add and /edit/:id, potentially within AdminPage or separate */}
-          {/* <Route path="*" element={<NotFoundPage />} /> */} {/* Catch-all 404 route */}
+          {/* Admin routes: It's good practice to group them or place them logically */}
+          {/* The /add route for creating a new product */}
+          <Route path="/add" element={<ProductForm />} />
+          {/* The /edit/:id route for updating an existing product */}
+          <Route path="/edit/:id" element={<ProductForm />} />
+
+           {/* Catch-all 404 route - ALWAYS place this last */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
       <Footer /> {/* Footer will be consistent across pages */}
