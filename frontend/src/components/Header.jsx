@@ -1,29 +1,29 @@
 import React from 'react';
-// import { Link } from 'react-router-dom'; // Use Link for navigation instead of <a> tags
+import { Link } from 'react-router-dom'; // Use Link for navigation instead of <a> tags
 
 function Header() {
     return (
-    <header className="main-header"> {/* Example: converted class to className */}
+    <header className="main-header">
         <div className="container">
             <div className="logo">
-                <a href="index.html">MyGadgetStore</a>
+                <Link to="/">MyGadgetStore</Link>
             </div>
 
             {/* Navigation links */} 
             <nav className="main-nav">
                 <ul className="nav-list">
-                    <li><a href="index.html" className="nav-link">Home</a></li>
-                    <li><a href="#" className="nav-link" data-category="laptops">Laptops</a></li>
-                    <li><a href="#" className="nav-link" data-category="smartphones">Smartphones</a></li>
-                    <li><a href="#" className="nav-link" data-category="headphones">Headphones</a></li>
-                    <li><a href="#" className="nav-link" data-category="cameras">Cameras</a></li>
-                    <li><a href="#" className="nav-link" data-category="all">All Products</a></li>
+                    <li><Link to="/" className="nav-link">Home</Link></li>
+                    <li><Link to="/category/laptops" className="nav-link">Laptops</Link></li>
+                    <li><Link to="/category/smartphones" className="nav-link">Smartphones</Link></li>
+                    <li><Link to="/category/headphones" className="nav-link">Headphones</Link></li>
+                    <li><Link to="/category/cameras" className="nav-link">Cameras</Link></li>
+                    <li><Link to="/products" className="nav-link">All Products</Link></li>
                 </ul>
             </nav>     
  
             <div className="search-bar">
                 <input type="text" placeholder="Search products..." className="search-input" />
-                <a href="admin.html" className="admin-link">Admin</a>
+                <Link to="/admin" className="admin-link">Admin</Link>
             </div>
         </div>
     </header> 
