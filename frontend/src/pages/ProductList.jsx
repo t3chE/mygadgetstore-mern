@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import ProductCard from '../components/ProductCard'; // Ensure this path is correct, should be .jsx
-import { fetchProducts } from '../utils/dataHandler'; // Assuming fetchProducts works for now
-import { Link } from 'react-router-dom'; // Import Link if you need it directly here, e.g., for "All Products" button
+import ProductCard from '../components/ProductCard';
+import { fetchProducts } from '../utils/dataHandler';
+import { Link } from 'react-router-dom';
 
 function ProductList() {
     const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true); // Add loading state
-    const [error, setError] = useState(null);   // Add error state
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const getProducts = async () => {
             try {
-                setLoading(true); // Set loading to true before fetching
+                setLoading(true);
                 const data = await fetchProducts();
                 setProducts(data);
-                setError(null); // Clear any previous errors on success
+                setError(null);
             } catch (err) {
                 console.error("Error fetching products:", err);
-                setError("Failed to load products. Please try again later."); // Set user-friendly error
+                setError("Failed to load products. Please try again later.");
             } finally {
-                setLoading(false); // Set loading to false after fetch attempt
+                setLoading(false);
             }
         };
-
         getProducts();
     }, []);
 
@@ -39,42 +38,29 @@ function ProductList() {
     }
 
     return (
-        <main className="flex-grow container mx-auto p-6 md:p-10 main-content-layout">
-
-            <aside className="sidebar">
-                <section className="category-buttons-container mb-6">
-                    <h3>Filter By Category</h3>
-                    <div className="category-buttons">
-                        {/* You can make these Link components later to navigate to category-specific routes */}
-                        <Link to="/" className="btn" data-category="all">All Products</Link> {/* Link to home for "All Products" */}
-                        <button className="btn" data-category="laptops">Laptops</button>
-                        <button className="btn" data-category="smartphones">Smartphones</button>
-                        <button className="btn" data-category="headphones">Headphones</button>
-                        <button className="btn" data-category="cameras">Cameras</button>
-                    </div>
-                </section>
-
-                <section className="sort-options">
-                    <h2>Sort By</h2>
-                    <select id="sortSelect" className="sort-dropdown"> {/* Changed class to className */}
-                        <option value="default">Default</option>
-                        <option value="price-asc">Price: Low to High</option>
-                        <option value="price-desc">Price: High to Low</option>
-                        <option value="name-asc">Name: A-Z</option>
-                        <option value="name-desc">Name: Z-A</option>
-                    </select>
-                </section>
-            </aside>
-
-            <section id="product-list" className="product-grid">
-                <h2 className="page-title">Explore Our Products</h2> {/* Changed class to className */}
-                <div id="product-cards-container">
+        <main>
+            <div className="main-content-container">
+                {/* Header section with title and sort options */}
+                <div className="product-list-header">
+                            <h2 className="page-title">Explore Our Products</h2>
+                            <section className="sort-options">
+                                <label htmlFor="sortSelect">Sort By:</label> {/* Added a label for accessibility */}
+                                <select id="sortSelect" className="sort-dropdown">
+                                    <option value="default">Default</option>
+                                    <option value="price-asc">Price: Low to High</option>
+                                    <option value="price-desc">Price: High to Low</option>
+                                    <option value="name-asc">Name: A-Z</option>
+                                    <option value="name-desc">Name: Z-A</option>
+                                </select>
+                            </section>
+                        </div>            
+                {/* This section will now directly contain the ProductCards */}
+                <section id="product-list" className="product-grid">
                     {products.map(product => (
                         <ProductCard key={product.id} product={product} />
                     ))}
-                </div>
-            </section>
-
+                </section>
+            </div>
         </main>
     );
 }

@@ -1,69 +1,328 @@
-/* --- Product List Specific Styles (index.html) --------------------------------------------------- */
-.main-content-layout {
-    display: grid;
-    grid-template-columns: 1fr; /* Stack sidebar and product grid on small screens */
-    gap: 2rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* This targets the main content layout for larger screens */
-@media (min-width: 1024px) {
-    .main-content-layout {
-        grid-template-columns: 250px 1fr; /* Fixed sidebar width, content takes rest */
-    }
-}
-
-
-.sidebar {
-    background-color: white;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    /* Removed flex-shrink, width, max-width, max-height as grid handles it */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Ensure the Product Grid itself takes up available space */
-.product-grid {
-    display: grid;
-    /* This rule now applies to the actual product cards which are direct children of the div inside product-grid */
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem; /* Adjusted gap slightly to be consistent */
-    align-items: start; /* Align cards to the top of their grid cells */
-}
-
-/* New CSS rule for the container that holds the actual product cards */
-#product-cards-container { /* Renamed from #product-cards to match React component */
-    display: grid;
-    /* This grid template will be inherited from .product-grid (its parent)
-       or you can explicitly set it if you want different grid behavior inside.
-       For now, let's keep it simple and let .product-grid define the grid. */
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Explicitly set here to ensure grid behavior */
-    gap: 1.5rem; /* Adjusted gap to be slightly smaller within the product-cards-container */
-    /* Remove `grid-column: 1 / -1;` from here, as this container IS the grid now */
-}
-
-/* Corrected selector for the image within the product card */
-.product-card .product-image { /* Target the img directly */
+/* General Body Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding-top: 0; /* Will remove fixed header padding for simplicity first */
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: #333;
     width: 100%;
-    height: 30rem; /* Fixed height for uniformity */
-    object-fit: scale-down; /* Crop images to fit */
+}
+
+h1, h2, h3 {
+    color: #333; /* Using direct color for now, ensure var(--text-color-dark) is defined */
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+/*a {
+    color: #4299e1; 
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #2563eb; 
+}*/
+
+button, .btn {
+    background-color: #4299e1;
+    color: white;
+    padding: 0.75rem 1.25rem;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover, .btn:hover {
+    background-color: #2563eb;
+    transform: translateY(-1px);
+}
+
+.secondary-btn {
+    background-color: #6b7280;
+}
+
+.secondary-btn:hover {
+    background-color: #4b5563;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="search"],
+textarea,
+select {
+    padding: 0.75rem 1rem;
+    border: 1px solid #cbd5e0; /* Using direct color for now, ensure var(--border-color) is defined */
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn't add to the width */
+}
+
+
+/* --- Header Styling --------------------------------------------------------------------------- */
+.main-header {
+    background-color: #1a202c;
+    /*color: #fff;*/
+    padding: 1.5rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100vw;
+    left: 0;
+    right: 0;
+    position: relative;
+    z-index: 1000;
+}
+
+.main-header .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin: 0 auto; /* This centers the content */
+    padding: 0 1.5rem; /* This adds internal padding */
+}
+
+.header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 2rem;
+}
+
+.search-bar,
+.admin-link-container {
+    flex: 1 1 0;
+    min-width: 250px;  
+}
+
+
+.logo-nav {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: white;
+    justify-content: center;
+    min-width: 350px;
+}
+
+.logo a {
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: white;
+    margin-bottom: 0.5rem;
+    text-align: center; 
+}
+
+.main-nav .nav-list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 3.5rem;
+    justify-content: center;
+}
+
+.main-nav .nav-list li a {
+    font-weight: 500;
+    padding: 0.5rem 0;
+    position: relative;
+}
+
+.main-nav .nav-list li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    transition: width 0.3s ease;
+}
+
+.main-nav .nav-list li a:hover::after {
+    width: 100%;
+    background-color: #4299e1; 
+}
+
+.search-bar .search-input {
+    width: 180px;      
+    padding: 0.4rem 0.7rem; 
+    font-size: 0.95rem;     
+    height: 2rem;          
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align left */
+    flex: 1 1 0;
+    min-width: 180px;
+}
+
+.search-bar::placeholder {
+    color: #9ca3af;
+}
+
+.admin-link-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Align right */
+    flex: 1 1 0;
+    min-width: 180px;
+}
+
+.admin-link, .back-to-site-link {
+    background-color: #4299e1;
+    color: white;
+    padding: 0.4rem 0.7rem;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    transition: background-color 0.3s ease-in-out;
+    
+    height: 2rem;
+}
+
+.admin-link:hover, .back-to-site-link:hover {
+    background-color: #d97706;
+    color: white;
+}
+
+
+
+/* --- Footer Styling --------------------------------------------------------------------------- */
+.main-footer {
+    background-color:#1a202c;
+    color: #fff;
+    padding: 1.5rem 0;
+    text-align: center;
+    margin-top: auto;
+}
+
+.main-footer .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    /*max-width: 1200px; /* This keeps the content within 1200px */
+    margin: 0 auto; /* This centers the content */
+    padding: 0 1.5rem; /* This adds internal padding */
+}
+
+.main-footer .footer-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.main-footer .footer-nav ul li a {
+    color: #f9fafb; /* Using direct color for now, ensure var(--text-color-light) is defined */
+    font-size: 0.9rem;
+}
+
+.main-footer .footer-nav ul li a:hover {
+    color: #4299e1; /* Using direct color for now, ensure var(--primary-color) is defined */
+}
+
+
+
+/* --- Product List Specific Styles (index.html) --------------------------------------------------- */
+
+.main-content-layout {
+    max-width: 1600px;
+    width: 100%;
+    margin: 0 auto; /* Centers the content */
+    padding: 2rem 1.5rem;
+    display: block; /* Ensures it behaves as a block element */
+}
+
+.main-content-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto; /* Center horizontally */
     display: block;
-    padding: 1.5rem 0.8rem 0; /* Padding around the image */
+}   
+
+/* New container for the page title and filter/sort options */
+.product-list-header {
+    display: flex;
+    flex-direction: column; /* Stack on small screens */
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.product-list-header h2 {
+    text-align: center;
+    margin-bottom: 0; /* Adjust margin as it's part of the flex container now */
+}
+
+.sort-options { /* Moved from sidebar, ensure it's styled for the new context */
+    width: 100%; /* Take full width in header */
+    display: flex; /* Allow filter and sort to be side-by-side if you add more */
+    justify-content: flex-end; /* Align to the right */
+    align-items: center;
+    gap: 1rem;
+}
+
+.sort-dropdown {
+    width: auto; /* Allow dropdown to size based on content, not 100% */
+    min-width: 180px; /* Give it a reasonable minimum width */
+    /* Other styles remain: padding, border, border-radius, font-size, background-color, appearance */
+}
+
+.product-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    align-items: stretch; /* Make all cards the same height */
+    justify-items: center;
+}
+
+.product-grid .page-title {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-bottom: 1.25rem;
 }
 
 .product-card {
-    display: flex;
-    flex-direction: column;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    /* Removed redundant display:flex, flex-direction:column */
-    /* Remove min-width if grid handles it and you want it more flexible */
-    min-width: 22rem; /* Keep if cards shouldn't shrink below this */
+    height: 100%; /* Uniform height for all cards */
+    max-height: 600px; /* Limit max height for uniformity */
+    display: flex;
+    flex-direction: column;
 }
 
 .product-card:hover {
@@ -71,10 +330,17 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Ensure these are now inside .product-card-content */
+.product-card .product-image {
+    width: 100%;
+    height: 18rem;
+    object-fit: scale-down;
+    display: block;
+    padding: 0rem 0.8rem 0;
+}
+
 .product-card-content {
     padding: 15px;
-    flex-grow: 1; /* Allows content to grow and fill space */
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
@@ -90,29 +356,342 @@
 .product-price {
     font-size: 1.5em;
     font-weight: bold;
-    color: #333; /* Changed from #007bff as per product detail, assuming a consistent color */
-    margin-top: auto; /* Push price to bottom if content varies */
+    color: #333;
+    margin-top: auto;
     margin-bottom: 0.6rem;
 }
 
-/* New/Adjusted styles for the edit button within the card */
-.edit-product-button {
-    /* Inherits styling from .btn and .secondary-btn */
-    margin-top: 1rem; /* Space from other elements, adjust as needed */
-    text-align: center; /* Center the button text if it's an anchor */
-    display: block; /* Make it block level to take full width */
+.add-to-cart-button {
+    /* Existing button styles */
+    background-color: #4299e1;
+    color: white;
+    padding: 0.75rem 1.25rem;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
     width: 100%;
+    margin-top: 0.6rem;
 }
 
-/* Add some margin to the page title within the grid if it's the first item */
-.product-grid .page-title {
-    grid-column: 1 / -1; /* This is correct: span from the first to the last column line */
+.add-to-cart-button:hover {
+    background-color: #2563eb;
+    transform: translateY(-1px);
+}
+
+.no-products-message {
     text-align: center;
-    margin-bottom: 1.25rem;
+    color: #555;
+    font-size: 1.2em;
+    margin-top: 30px;
 }
 
-/* Ensure the main content `container` class is applied in ProductList.jsx */
-/* .container { display: flex; flex-wrap: wrap; ... } */
-/* This might be causing your sidebar/main content not to align if not applied to the root */
-/* In ProductList.jsx, ensure <main className="flex-grow container mx-auto p-6 md:p-10 main-content-layout">
-   becomes <main className="main-content-layout container"> if you want container styles */
+
+/* --- Admin Page Specific Styles (admin.html) -------------------------------------------------- */
+.admin-page {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.admin-container {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.admin-form-section {
+    flex: 1 1 400px; /* Grow, shrink, base width */
+    padding: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    background-color: #f9f9f9;
+    max-width: 50rem; /* Limit width for larger screens */
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.admin-table-section {
+    flex: 2 1 600px;
+    overflow-x: auto; /* For responsive tables */
+}
+
+.form-group {
+    margin-bottom: 1rem; /* Space between form groups */
+    position: relative; /* For error message positioning */
+    display: flex;
+    flex-direction: column; /* Stack label and input vertically */
+    align-items: flex-start; /* Align items to the start */
+    max-width: 768px; /* Limit width for larger screens */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea,
+.form-group select {
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.form-group input.invalid,
+.form-group select.invalid,
+.form-group textarea.invalid {
+    border-color: #dc3545; /* Red border for invalid fields */
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.85em;
+    margin-top: 5px;
+    display: none; /* Hidden by default, shown by JS */
+}
+
+.form-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.form-buttons button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.form-buttons button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.form-buttons button[type="submit"].update-mode {
+    background-color: #28a745; /* Green for update button */
+}
+
+.form-buttons button[type="submit"].update-mode:hover {
+    background-color: #218838;
+}
+
+.form-buttons button[type="button"] { /* Clear Form Button */
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.form-buttons button[type="button"]:hover {
+    background-color: #5a6268;
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.product-table th,
+.product-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.product-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+.product-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.product-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.product-table .edit-btn {
+    background-color: #ffc107; /* Yellow for edit */
+    color: #333;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.product-table .edit-btn:hover {
+    background-color: #e0a800;
+}
+
+.product-table .delete-btn {
+    background-color: #dc3545; /* Red for delete */
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.product-table .delete-btn:hover {
+    background-color: #c82333;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+
+
+/* --- Media Queries ---------------------------------------------------------------------------- */
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 1.8em;
+    }
+
+    .product-detail-name {
+        font-size: 1.8em;
+    }
+
+    .product-detail-price {
+        font-size: 1.5em;
+    }
+
+    .add-to-cart-button, .write-review-btn {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    /* Product list header for small screens */
+    .product-list-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .sort-options {
+        justify-content: center; /* Center the dropdown on small screens */
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    .main-nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .main-nav li {
+        margin: 10px 0;
+    }
+
+    .search-bar, #sortSelect {
+        width: 100%;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr; /* Force single column on smaller phones for readability */
+    }
+
+    .product-detail-container,
+    .admin-container {
+        flex-direction: column;
+    }
+
+    .admin-form-section,
+    .admin-table-section {
+        flex: none;
+        width: 100%;
+    }
+
+    .product-table th,
+    .product-table td {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+}
+
+
+
+/* Medium screens (e.g., tablets - 769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+    .main-header .container {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .main-nav {
+        flex-basis: 100%;
+        order: 3;
+        margin-top: 1rem;
+    }
+
+    .main-nav .nav-list {
+        justify-content: center;
+    }
+
+    /* main-content-layout no longer a grid container here */
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Aim for 2 columns */
+    }
+
+    .product-detail-section {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .product-gallery, .product-info {
+        flex: 1;
+    }
+
+    .product-gallery {
+        max-width: 45%;
+    }
+}
+
+
+
+/* Large screens (desktops - 1024px and up) */
+@media (min-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(3, 1fr)); /* Aim for 3 columns or more */
+    }
+
+    .product-detail-section {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .product-gallery {
+        flex: 0 0 40%;
+        max-width: 40%;
+    }
+
+    .product-info {
+        flex: 0 0 60%;
+        padding-left: 2rem;
+    }
+}
+
+
