@@ -1,42 +1,104 @@
-import React from 'react';
-// import ProductForm from '../components/ProductForm'; // Will import later
+import React, { useState } from 'react';
 
 function AdminPage() {
-  return (
-    <main className="main-content container admin-page">
-            <h1 className="page-title">Admin Panel: Product Management</h1>
+    const [form, setForm] = useState({
+        name: '',
+        price: '',
+        category: '',
+        description: '',
+        status: 'active'
+    });
 
+    const handleChange = e => {
+        const { name, value } = e.target;
+        setForm(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        // TODO: Add submit logic
+        alert('Product submitted!');
+    };
+
+    const handleClear = () => {
+        setForm({
+            name: '',
+            price: '',
+            category: '',
+            description: '',
+            status: 'active'
+        });
+    };
+
+  return (
+    <div className="admin-page">
+        <div className="admin-container">
+            <h1 className="page-title">Admin Panel: Product Management</h1>
             <section className="admin-form-section">
-                <h2 id="formTitle">Add New Product</h2>
-                <form id="productForm" className="product-form">
-                    <input type="hidden" id="productId" name="id" />
+                <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="productName">Product Name:</label>
-                        <input type="text" id="productName" name="name" required />
+                        <label htmlFor="name">Product Name:</label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name" 
+                            value={form.name} 
+                            onChange={handleChange}
+                            required 
+                        />
                         <span className="error-message" id="nameError"></span>
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="productImages">Image URLs (comma-separated):</label>
-                        <input type="text" id="productImages" name="images" placeholder="e.g., images/pic1.jpg,images/pic2.jpg" required />
+                        <label htmlFor="Images">Image URLs (comma-separated):</label>
+                        <input 
+                            type="text" 
+                            id="Images" 
+                            name="images" 
+                            placeholder="e.g., images/pic1.jpg,images/pic2.jpg" 
+                            value={form.images}
+                            onChange={handleChange}
+                            required 
+                        />
                         <span className="error-message" id="imagesError"></span>
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="productDescription">Description:</label>
-                        <textarea id="productDescription" name="description" rows="5" required></textarea>
+                        <label htmlFor="description">Description</label>
+                        <textarea
+                            id="description"
+                            name="description"
+                            value={form.description}
+                            onChange={handleChange}
+                            rows={5}
+                        />
                         <span className="error-message" id="descriptionError"></span>
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="productPrice">Price (£):</label>
-                        <input type="number" id="productPrice" name="price" step="0.01" min="0" required />
+                        <label htmlFor="Price">Price (£):</label>
+                        <input 
+                            type="number" 
+                            id="Price" 
+                            name="price" 
+                            step="0.01" 
+                            min="0"  
+                            value={form.price}
+                            onChange={handleChange}
+                            required
+                        />
                         <span className="error-message" id="priceError"></span>
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="productCategory">Category:</label>
-                        <select id="productCategory" name="category" required>
+                        <label htmlFor="Category">Category:</label>
+                        <select 
+                            id="Category" 
+                            name="category" 
+                            required
+                            value={form.category}
+                            onChange={handleChange}
+                        >
                             <option value="">Select a Category</option>
                             <option value="Laptops">Laptops</option>
                             <option value="Smartphones">Smartphones</option>
@@ -47,29 +109,23 @@ function AdminPage() {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="productAvailability">Availability Status:</label>
-                        <select id="productAvailability" name="availability" required>
+                        <label htmlFor="status">Status:</label>
+                        <select 
+                            id="status" 
+                            name="status" 
+                            value={form.status}
+                            onChange={handleChange}
+                            required
+                        >
                             <option value="In Stock">In Stock</option>
                             <option value="Low Stock">Low Stock</option>
                             <option value="Out of Stock">Out of Stock</option>
                         </select>
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="productRatings">Rating (0-5, optional):</label>
-                        <input type="number" id="productRatings" name="ratings" step="0.1" min="0" max="5" />
-                        <span className="error-message" id="ratingsError"></span>
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="productReviews">Number of Reviews (optional):</label>
-                        <input type="number" id="productReviews" name="reviews" min="0" />
-                        <span className="error-message" id="reviewsError"></span>
-                    </div>
-
                     <div className="form-actions">
-                        <button type="submit" id="submitBtn">Add Product</button>
-                        <button type="button" id="clearFormBtn" className="secondary-btn">Clear Form</button>
+                        <button type="submit">Submit</button>
+                        <button type="button" onClick={handleClear}>Clear</button>
                     </div>
                 </form>
             </section>
@@ -116,9 +172,11 @@ function AdminPage() {
                 </div>
                 <p id="noProductsMessage" style={{display: "none"}}>No products found. Add a new product above.</p>
             </section>
-        </main>
+        </div>
+    </div>
     );
-}        
+} 
+       
 export default AdminPage;
 
         
