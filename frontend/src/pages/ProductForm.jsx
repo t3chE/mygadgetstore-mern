@@ -13,6 +13,9 @@ function ProductForm() {
         reviews: ''
     });
 
+    // State to hold validation errors
+    const [errors, setErrors] = useState({});
+
     // A single function to handle changes for all form inputs
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -22,17 +25,47 @@ function ProductForm() {
         }));
     };
 
+    // A function to validate the form data
+    const validateForm = () => {
+        const newErrors = {};
+
+        // Required field validation
+        if (!product.name.trim()) {
+            newErrors.name = 'Product Name is required.';
+        }
+        if (!product.images.trim()) {
+            newErrors.images = 'At least one image URL is required.';
+        }
+        if (!product.description.trim()) {
+            newErrors.description = 'Description is required.';
+        }
+        if (!product.price || isNaN(product.price) || parseFloat(product.price) <= 0) {
+            newErrors.price = 'Price must be a positive number.';
+        }
+        if (!product.category) {
+            newErrors.category = 'Category is required.';
+        }
+
+        setErrors(newErrors);
+        // Return true if there are no errors, false otherwise
+        return Object.keys(newErrors).length === 0;
+    };
+
     // Function to handle form submission
     const handleSubmit = (e) => {
         // Prevent the default browser form submission behavior (page reload)
         e.preventDefault();
         
-        // For now, let's just log the product data to the console
-        // In a later step, we will use this function to make an API call
-        console.log('Form Submitted:', product);
-        
-        // Here you would typically perform validation and then make an API call
-        // (e.g., to create a new product or update an existing one).
+        // Validate the form before attempting to submit
+        if (validateForm()) {
+            // For now, let's just log the product data to the console
+            // In a later step, we will use this function to make an API call
+            console.log('Form Submitted:', product);
+            // Here you would typically perform the API call to add/update the product
+            // e.g., sendDataToApi(product);
+        } else {
+            console.log('Form has validation errors.');
+        }
     };
 
     // Function to clear all form inputs
@@ -47,6 +80,8 @@ function ProductForm() {
             ratings: '',
             reviews: ''
         });
+        // Clear any validation errors as well
+        setErrors({});
     };
 
     return (
@@ -61,7 +96,7 @@ function ProductForm() {
                     onChange={handleChange}
                     required
                 />
-                <span className="error-message" id="nameError"></span>
+                <span className="error-message" id="nameError">{errors.name}</span>
             </div>
 
             <div className="form-group">
@@ -75,7 +110,7 @@ function ProductForm() {
                     onChange={handleChange}
                     required
                 />
-                <span className="error-message" id="imagesError"></span>
+                <span className="error-message" id="imagesError">{errors.images}</span>
             </div>
 
             <div className="form-group">
@@ -88,7 +123,7 @@ function ProductForm() {
                     onChange={handleChange}
                     required
                 ></textarea>
-                <span className="error-message" id="descriptionError"></span>
+                <span className="error-message" id="descriptionError">{errors.description}</span>
             </div>
 
             <div className="form-group">
@@ -103,7 +138,7 @@ function ProductForm() {
                     onChange={handleChange}
                     required
                 />
-                <span className="error-message" id="priceError"></span>
+                <span className="error-message" id="priceError">{errors.price}</span>
             </div>
 
             <div className="form-group">
@@ -121,7 +156,7 @@ function ProductForm() {
                     <option value="Headphones">Headphones</option>
                     <option value="Cameras">Cameras</option>
                 </select>
-                <span className="error-message" id="categoryError"></span>
+                <span className="error-message" id="categoryError">{errors.category}</span>
             </div>
 
             <div className="form-group">
@@ -151,7 +186,7 @@ function ProductForm() {
                     value={product.ratings}
                     onChange={handleChange}
                 />
-                <span className="error-message" id="ratingsError"></span>
+                <span className="error-message" id="ratingsError">{errors.ratings}</span>
             </div>
 
             <div className="form-group">
@@ -164,12 +199,26 @@ function ProductForm() {
                     value={product.reviews}
                     onChange={handleChange}
                 />
-                <span className="error-message" id="reviewsError"></span>
+                <span className="error-message" id="reviewsError">{errors.reviews}</span>
             </div>
 
             <div className="form-actions">
-                <button type="submit" id="submitBtn">Add Product</button>
-                <button type="button" id="clearFormBtn" className="secondary-btn" onClick={handleClear}>Clear Form</button>
+                <button
+                    type="submit"
+                    id="submitBtn"
+                    style={{ backgroundColor: '#2e7d32', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}
+                >
+                    Add Product
+                </button>
+                <button
+                    type="button"
+                    id="clearFormBtn"
+                    className="secondary-btn"
+                    onClick={handleClear}
+                    style={{ backgroundColor: '#bdbdbd', color: 'black', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
+                >
+                    Clear Form
+                </button>
             </div>
         </form>
     );
