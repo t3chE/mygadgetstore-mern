@@ -73,6 +73,7 @@ select {
 
 
 /* --- Header Styling --------------------------------------------------------------------------- */
+
 .main-header {
     background-color: #1a202c;
     /*color: #fff;*/
@@ -212,6 +213,7 @@ select {
 
 
 /* --- Footer Styling --------------------------------------------------------------------------- */
+
 .main-footer {
     background-color:#1a202c;
     color: #fff;
@@ -313,6 +315,9 @@ select {
 }
 
 .product-card {
+    min-width: 260px;
+    max-width: 350px;
+    width: 100%;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 0.5rem;
@@ -323,6 +328,8 @@ select {
     max-height: 600px; /* Limit max height for uniformity */
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
 }
 
 .product-card:hover {
@@ -335,7 +342,8 @@ select {
     height: 18rem;
     object-fit: scale-down;
     display: block;
-    padding: 0rem 0.8rem 0;
+    padding: 0.5rem 0.8rem 0;
+    margin-top: 0.5rem;
 }
 
 .product-card-content {
@@ -343,6 +351,7 @@ select {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
 }
 
 .product-card-name {
@@ -388,7 +397,9 @@ select {
 }
 
 
+
 /* --- Admin Page Specific Styles (admin.html) -------------------------------------------------- */
+
 .admin-page {
     padding-top: 2rem;
     padding-bottom: 2rem;
@@ -596,21 +607,73 @@ select {
 
 
 @media (max-width: 768px) {
+    .main-header .container {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0 0.5rem;
+        width: 100vw;
+        max-width: 100vw;
+        box-sizing: border-box;
+    }
+    .header-flex {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        max-width: 100%;
+    }
+
+    .logo-nav {
+        margin: 0 auto;
+        min-width: unset;
+    }
+
+    .search-bar,
+    .admin-link-container {
+        min-width: 100px;
+        width: 100%;
+        margin-bottom: 1rem;
+        justify-content: center; 
+    }
+    
     .main-nav ul {
         flex-direction: column;
         align-items: center;
     }
 
-    .main-nav li {
-        margin: 10px 0;
+    .main-nav .nav-list {
+        gap: 1rem;
+        justify-content: center;
     }
 
     .search-bar, #sortSelect {
-        width: 100%;
+        width: 100%; 
+        max-width: 300px; 
+        margin: 0 auto; 
+        padding: 0.5rem; 
+        justify-content: center; 
+    }
+
+    .main-content-container {
+        padding: 0.5rem;
+        max-width: 98vw;
     }
 
     .product-grid {
-        grid-template-columns: 1fr; /* Force single column on smaller phones for readability */
+        grid-template-columns: 1fr; 
+        gap: 1rem;
+        max-width: 98vw;
+    }
+
+    .product-list-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    .sort-options {
+        justify-content: center;
+        width: 100%;
     }
 
     .product-detail-container,
@@ -638,6 +701,25 @@ select {
     .main-header .container {
         flex-wrap: wrap;
         justify-content: space-between;
+        padding: 0 1rem;
+    }
+
+     .header-flex {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        max-width: 100%;
+    }
+
+     .logo-nav {
+        margin: 0 auto;
+        min-width: unset;
+    }
+
+     .search-bar,
+    .admin-link-container {
+        min-width: 150px;
+        margin-bottom: 1rem;
     }
 
     .main-nav {
@@ -647,13 +729,13 @@ select {
     }
 
     .main-nav .nav-list {
+        gap: 2rem;
         justify-content: center;
     }
 
-    /* main-content-layout no longer a grid container here */
-
     .product-grid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Aim for 2 columns */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
     }
 
     .product-detail-section {
@@ -665,8 +747,9 @@ select {
         flex: 1;
     }
 
-    .product-gallery {
-        max-width: 45%;
+    .main-content-container {
+        padding: 1rem;
+        max-width: 95vw;
     }
 }
 
@@ -674,6 +757,12 @@ select {
 
 /* Large screens (desktops - 1024px and up) */
 @media (min-width: 1024px) {
+    .main-header .container {
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        padding: 0 2rem;
+    }
+
     .product-grid {
         grid-template-columns: repeat(auto-fill, minmax(3, 1fr)); /* Aim for 3 columns or more */
     }
