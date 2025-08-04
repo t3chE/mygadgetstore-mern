@@ -417,6 +417,10 @@ select {
     gap: 2rem;
     flex-wrap: wrap;
     margin-top: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px; /* Adjust as needed */
+    justify-content: center;
 }
 
 .admin-form-section {
@@ -426,13 +430,20 @@ select {
     border-radius: 0.5rem;
     background-color: #f9f9f9;
     max-width: 50rem; /* Limit width for larger screens */
-    margin-bottom: 2rem;
+    margin-bottom: 0;
     justify-content: center;
 }
 
 .admin-table-section {
     flex: 2 1 600px;
     overflow-x: auto; /* For responsive tables */
+}
+
+.page-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333; /* Using direct color for now, ensure var(--text-color-dark) is defined */
+    margin-bottom: 1.5rem;
 }
 
 .form-group {
@@ -510,10 +521,12 @@ select {
     background-color: #5a6268;
 }
 
+
+/* --- Admin Page (Product Table) -------------------------------------------------- */
+
 .product-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 8px;

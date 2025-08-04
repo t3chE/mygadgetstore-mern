@@ -33,7 +33,6 @@ function AdminPage() {
   return (
     <div className="admin-page">
         <div className="admin-container">
-            <h1 className="page-title">Admin Panel: Product Management</h1>
             <section className="admin-form-section">
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
@@ -70,7 +69,7 @@ function AdminPage() {
                             name="description"
                             value={form.description}
                             onChange={handleChange}
-                            rows={5}
+                            rows={10}
                         />
                         <span className="error-message" id="descriptionError"></span>
                     </div>
@@ -123,7 +122,7 @@ function AdminPage() {
                         </select>
                     </div>
 
-                    <div className="form-actions">
+                    <div className="form-buttons">
                         <button type="submit">Submit</button>
                         <button type="button" onClick={handleClear}>Clear</button>
                     </div>
@@ -131,7 +130,6 @@ function AdminPage() {
             </section>
 
             <section className="admin-product-list">
-                <h2>Current Products</h2>
                 <div className="table-container">
                     <table className="product-table">
                         <thead>
