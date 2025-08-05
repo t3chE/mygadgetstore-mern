@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { addProduct } from '../utils/api';
 
 function ProductForm() {
-    // State to hold the form data
     const [product, setProduct] = useState({
         name: '',
         images: '',
@@ -12,11 +12,10 @@ function ProductForm() {
         ratings: '',
         reviews: ''
     });
-
-    // State to hold validation errors
     const [errors, setErrors] = useState({});
+    const [submitError, setSubmitError] = useState('');
+    const [submitSuccess, setSubmitSuccess] = useState('');
 
-    // A single function to handle changes for all form inputs
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProduct(prevProduct => ({
@@ -25,50 +24,44 @@ function ProductForm() {
         }));
     };
 
-    // A function to validate the form data
     const validateForm = () => {
         const newErrors = {};
-
-        // Required field validation
-        if (!product.name.trim()) {
-            newErrors.name = 'Product Name is required.';
-        }
-        if (!product.images.trim()) {
-            newErrors.images = 'At least one image URL is required.';
-        }
-        if (!product.description.trim()) {
-            newErrors.description = 'Description is required.';
-        }
-        if (!product.price || isNaN(product.price) || parseFloat(product.price) <= 0) {
-            newErrors.price = 'Price must be a positive number.';
-        }
-        if (!product.category) {
-            newErrors.category = 'Category is required.';
-        }
-
+        if (!product.name.trim()) newErrors.name = 'Product Name is required.';
+        if (!product.images.trim()) newErrors.images = 'At least one image URL is required.';
+        if (!product.description.trim()) newErrors.description = 'Description is required.';
+        if (!product.price || isNaN(product.price) || parseFloat(product.price) <= 0) newErrors.price = 'Price must be a positive number.';
+        if (!product.category) newErrors.category = 'Category is required.';
         setErrors(newErrors);
-        // Return true if there are no errors, false otherwise
         return Object.keys(newErrors).length === 0;
     };
 
-    // Function to handle form submission
-    const handleSubmit = (e) => {
-        // Prevent the default browser form submission behavior (page reload)
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        // Validate the form before attempting to submit
+        setSubmitError('');
+        setSubmitSuccess('');
         if (validateForm()) {
-            // For now, let's just log the product data to the console
-            // In a later step, we will use this function to make an API call
-            console.log('Form Submitted:', product);
-            // Here you would typically perform the API call to add/update the product
-            // e.g., sendDataToApi(product);
-        } else {
-            console.log('Form has validation errors.');
+            try {
+                // Prepare product data for backend
+                const productData = {
+                    name: product.name,
+                    imageUrl: product.images.split(',')[0].trim(), // Use first image for now
+                    description: product.description,
+                    price: parseFloat(product.price),
+                    category: product.category,
+                    status: product.availability,
+                    rating: product.ratings ? parseFloat(product.ratings) : undefined,
+                    reviews: product.reviews ? parseInt(product.reviews) : undefined,
+                    stock: 1 // You may want to add a stock field to your form
+                };
+                await addProduct(productData);
+                setSubmitSuccess('Product added successfully!');
+                handleClear();
+            } catch (err) {
+                setSubmitError(err.message || 'Failed to add product.');
+            }
         }
     };
 
-    // Function to clear all form inputs
     const handleClear = () => {
         setProduct({
             name: '',
@@ -80,7 +73,6 @@ function ProductForm() {
             ratings: '',
             reviews: ''
         });
-        // Clear any validation errors as well
         setErrors({});
     };
 
@@ -202,6 +194,9 @@ function ProductForm() {
                 <span className="error-message" id="reviewsError">{errors.reviews}</span>
             </div>
 
+            {submitError && <div className="error-message">{submitError}</div>}
+            {submitSuccess && <div className="success-message">{submitSuccess}</div>}
+
             <div className="form-actions">
                 <button
                     type="submit"
@@ -225,4 +220,3 @@ function ProductForm() {
 }
 
 export default ProductForm;
-            

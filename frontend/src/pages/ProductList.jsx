@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
-import { fetchProducts } from '../utils/dataHandler';
+import { getProducts } from '../utils/api'; // Adjust the import path as necessary
 import { Link } from 'react-router-dom';
 
 function ProductList() {
@@ -9,10 +9,10 @@ function ProductList() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const getProducts = async () => {
+        const fetchData = async () => {
             try {
                 setLoading(true);
-                const data = await fetchProducts();
+                const data = await getProducts();
                 setProducts(data);
                 setError(null);
             } catch (err) {
@@ -22,7 +22,7 @@ function ProductList() {
                 setLoading(false);
             }
         };
-        getProducts();
+        fetchData();
     }, []);
 
     if (loading) {
