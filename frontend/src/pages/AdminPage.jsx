@@ -14,6 +14,7 @@ function AdminPage() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [editingId, setEditingId] = useState(null);
+    const [errors, setErrors] = useState({});
 
     // Fetch products on mount
     useEffect(() => {
@@ -34,10 +35,23 @@ function AdminPage() {
         setForm(prev => ({ ...prev, [name]: value }));
     };
 
+    const validateForm = () => {
+        const newErrors = {};
+        if (!form.name.trim()) newErrors.name = 'Product name is required.';
+        if (!form.images.trim()) newErrors.images = 'Image filename is required.';
+        if (!form.description.trim()) newErrors.description = 'Description is required.';
+        if (!form.price || isNaN(form.price) || parseFloat(form.price) <= 0) newErrors.price = 'Price must be a positive number.';
+        if (!form.category) newErrors.category = 'Category is required.';
+        if (!form.status) newErrors.status = 'Status is required.';
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleSubmit = async e => {
         e.preventDefault();
         setError('');
         setSuccess('');
+        if (!validateForm()) return; // Stop if validation fails
         try {
             const productData = {
                 name: form.name,
@@ -127,6 +141,7 @@ function AdminPage() {
                                 onChange={handleChange}
                                 required
                             />
+                            {errors.name && <span className="error-message">{errors.name}</span>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="images">Image URLs (comma-separated):</label>
@@ -139,6 +154,20 @@ function AdminPage() {
                                 onChange={handleChange}
                                 required
                             />
+                            {errors.images && <span className="error-message">{errors.images}</span>}
+                            {/* Image preview */}
+                            {form.images && (
+                                <img
+                                    src={
+                                        form.images.split(',')[0].trim().startsWith('http')
+                                            ? form.images.split(',')[0].trim()
+                                            : `/images/${form.images.split(',')[0].trim().replace(/^images\//, '')}`
+                                    }
+                                    alt="Preview"
+                                    style={{ maxWidth: '120px', marginTop: '8px', border: '1px solid #ccc' }}
+                                    onError={e => { e.target.src = '/images/Placeholder.png'; }}
+                                />
+                            )}
                         </div>
                         <div className="form-group">
                             <label htmlFor="description">Description</label>
@@ -150,6 +179,7 @@ function AdminPage() {
                                 rows={5}
                                 required
                             />
+                            {errors.description && <span className="error-message">{errors.description}</span>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="price">Price (£):</label>
@@ -163,6 +193,7 @@ function AdminPage() {
                                 onChange={handleChange}
                                 required
                             />
+                            {errors.price && <span className="error-message">{errors.price}</span>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="category">Category:</label>
@@ -179,6 +210,7 @@ function AdminPage() {
                                 <option value="Headphones">Headphones</option>
                                 <option value="Cameras">Cameras</option>
                             </select>
+                            {errors.category && <span className="error-message">{errors.category}</span>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="status">Status:</label>
@@ -193,10 +225,29 @@ function AdminPage() {
                                 <option value="Low Stock">Low Stock</option>
                                 <option value="Out of Stock">Out of Stock</option>
                             </select>
+                            {errors.status && <span className="error-message">{errors.status}</span>}
                         </div>
                         <div className="form-buttons">
                             <button type="submit">{editingId ? 'Update Product' : 'Add Product'}</button>
                             <button type="button" onClick={handleClear}>Clear</button>
+                            {editingId && (
+                                <button type="button" onClick={() => {
+                                    setEditingId(null);
+                                    setForm({
+                                        name: '',
+                                        images: '',
+                                        description: '',
+                                        price: '',
+                                        category: '',
+                                        status: 'In Stock'
+                                    });
+                                    setErrors({});
+                                    setError('');
+                                    setSuccess('');
+                                }}>
+                                    Cancel Edit
+                                </button>
+                            )}
                         </div>
                         {error && <div className="error-message">{error}</div>}
                         {success && <div className="success-message">{success}</div>}
@@ -233,7 +284,11 @@ function AdminPage() {
                                                 <button className="edit-btn" onClick={() => handleEdit(product._id)}>Edit</button>
                                                 <button
                                                     className="delete-btn"
-                                                    onClick={() => handleDelete(product._id)}
+                                                    onClick={() => {
+                                                        if (window.confirm('Are you sure you want to delete this product?')) {
+                                                            handleDelete(product._id);
+                                                        }
+                                                    }}
                                                 >
                                                     Delete
                                                 </button>
