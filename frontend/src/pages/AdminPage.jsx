@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { addProduct, getProducts } from '../utils/api';
+import { addProduct, getProducts, deleteProduct, updateProduct } from '../utils/api';
 
 function AdminPage() {
     const [form, setForm] = useState({
@@ -13,6 +13,7 @@ function AdminPage() {
     const [products, setProducts] = useState([]);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [editingId, setEditingId] = useState(null);
 
     // Fetch products on mount
     useEffect(() => {
@@ -40,15 +41,22 @@ function AdminPage() {
         try {
             const productData = {
                 name: form.name,
-                imageUrl: form.images.split(',')[0].trim(),
+                image: form.images.split(',')[0].trim(),
                 description: form.description,
                 price: parseFloat(form.price),
                 category: form.category,
                 status: form.status,
                 stock: 1
             };
-            await addProduct(productData);
-            setSuccess('Product added successfully!');
+            if (editingId) {
+                // Update product
+                await updateProduct(editingId, productData); // You need to implement updateProduct in your API
+                setSuccess('Product updated successfully!');
+            } else {
+                // Add new product
+                await addProduct(productData);
+                setSuccess('Product added successfully!');
+            }
             setForm({
                 name: '',
                 images: '',
@@ -57,9 +65,11 @@ function AdminPage() {
                 category: '',
                 status: 'In Stock'
             });
+            setEditingId(null);
             refreshProducts();
         } catch (err) {
-            setError('Failed to add product.');
+            console.error(err);
+            setError('Failed to save product.');
         }
     };
 
@@ -74,6 +84,32 @@ function AdminPage() {
         });
         setError('');
         setSuccess('');
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            await deleteProduct(id);
+            refreshProducts();
+        } catch (err) {
+            setError('Failed to delete product.');
+        }
+    };
+
+    const handleEdit = (id) => {
+        const product = products.find(p => p._id === id || p.id === id);
+        if (product) {
+            setForm({
+                name: product.name,
+                images: product.image || product.images || '',
+                description: product.description,
+                price: product.price,
+                category: product.category,
+                status: product.status || 'In Stock'
+            });
+            setEditingId(id);
+            setSuccess('');
+            setError('');
+        }
     };
 
     return (
@@ -159,7 +195,7 @@ function AdminPage() {
                             </select>
                         </div>
                         <div className="form-buttons">
-                            <button type="submit">Submit</button>
+                            <button type="submit">{editingId ? 'Update Product' : 'Add Product'}</button>
                             <button type="button" onClick={handleClear}>Clear</button>
                         </div>
                         {error && <div className="error-message">{error}</div>}
@@ -194,8 +230,13 @@ function AdminPage() {
                                             <td>£{product.price.toFixed(2)}</td>
                                             <td>{product.status}</td>
                                             <td>
-                                                <button className="edit-btn" data-id={product._id}>Edit</button>
-                                                <button className="delete-btn" data-id={product._id}>Delete</button>
+                                                <button className="edit-btn" onClick={() => handleEdit(product._id)}>Edit</button>
+                                                <button
+                                                    className="delete-btn"
+                                                    onClick={() => handleDelete(product._id)}
+                                                >
+                                                    Delete
+                                                </button>
                                             </td>
                                         </tr>
                                     ))

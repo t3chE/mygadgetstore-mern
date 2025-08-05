@@ -1,14 +1,38 @@
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
-    name: { type: String, required: true },
+    name: String,
+    image: String, // <-- Make sure this exists
     description: String,
-    price: { type: Number, required: true, min: 0 },
-    category: { type: String, required: true, enum: ['Laptops', 'Smartphones', 'Headphones', 'Cameras'] },
-    imageUrl: { type: String, required: true },
-    stock: { type: Number, required: true, min: 0 },
-    status: { type: String, enum: ['In Stock', 'Low Stock', 'Out of Stock'], default: 'In Stock' },
-    rating: { type: Number, min: 0, max: 5 }
+    price: Number,
+    category: String,
+    status: String,
+    // ...other fields
 });
 
 module.exports = mongoose.model('Product', productSchema);
+
+// Example in your backend route/controller
+const newProduct = new Product({
+    name: req.body.name,
+    image: req.body.image, // <-- This should be set
+    description: req.body.description,
+    price: req.body.price,
+    category: req.body.category,
+    status: req.body.status,
+    // ...other fields
+});
+await newProduct.save();
+
+// Example Express route
+app.get('/api/products', async (req, res) => {
+    const products = await Product.find();
+    res.json(products); // Should include image field
+});
+
+// Frontend code example
+const productData = {
+    name: form.name,
+    image: form.images.split(',')[0].trim(), // <-- Use 'image' not 'imageUrl'
+    // ...other fields
+};
