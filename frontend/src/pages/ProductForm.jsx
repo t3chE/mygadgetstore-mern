@@ -147,6 +147,7 @@ function ProductForm() {
                     <option value="Smartphones">Smartphones</option>
                     <option value="Headphones">Headphones</option>
                     <option value="Cameras">Cameras</option>
+                    <option value="Smartwatches">Smartwatches</option>
                 </select>
                 <span className="error-message" id="categoryError">{errors.category}</span>
             </div>

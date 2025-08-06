@@ -26,6 +26,7 @@ function App() {
           <Route path="/add" element={<ProductForm />} />
           {/* The /edit/:id route for updating an existing product */}
           <Route path="/edit/:id" element={<ProductForm />} />
+          <Route path="/category/:categoryName" element={<ProductList />} />
 
            {/* Catch-all 404 route - ALWAYS place this last */}
           <Route path="*" element={<NotFoundPage />} />

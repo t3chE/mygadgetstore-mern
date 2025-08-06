@@ -1,36 +1,53 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getProductById } from '../utils/api';
 
 function ProductDetail() {
-  // In the future, this component will likely fetch product details based on a URL parameter (e.g., product ID)
-  return (
+    const { id } = useParams();
+    const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        async function fetchProduct() {
+            try {
+                const data = await getProductById(id);
+                setProduct(data);
+            } catch (err) {
+                setError('Product not found.');
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchProduct();
+    }, [id]);
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>{error}</div>;
+    if (!product) return null;
+
+    return (
 <main className="main-content container product-detail-page">
         <section className="product-detail-section">
             <div className="product-gallery">
-                <img src="images/placeholder_laptop_large.jpg" alt="[Product Name] - Main" className="main-product-image" id="productMainImage" />
-                <div className="thumbnail-gallery" id="productThumbnails">
-                    <img src="images/placeholder_laptop_thumb1.jpg" alt="[Product Name] - Thumb 1" className="thumbnail active" data-full-image="images/placeholder_laptop_large.jpg" />
-                    <img src="images/placeholder_laptop_thumb2.jpg" alt="[Product Name] - Thumb 2" className="thumbnail" data-full-image="images/placeholder_laptop_large2.jpg" />
-                    <img src="images/placeholder_laptop_thumb3.jpg" alt="[Product Name] - Thumb 3" className="thumbnail" data-full-image="images/placeholder_laptop_large3.jpg" />
-                </div>
+                <img
+                    src={product.image ? `/images/${product.image.replace(/^images\//, '')}` : '/images/Placeholder.png'}
+                    alt={product.name}
+                    className="main-product-image"
+                />
             </div>
-
             <div className="product-info">
-                <h1 className="product-title" id="productDetailName">[Product Name]</h1>
-                <p className="product-price" id="productDetailPrice">£[Price]</p>
-                <p className="product-category">Category: <span id="productDetailCategory">[Category Name]</span></p>
-                <p className="product-availability" id="productDetailAvailability">Availability: [In Stock]</p>
+                <h1 className="product-title">{product.name}</h1>
+                <p className="product-price">£{product.price.toFixed(2)}</p>
+                <p className="product-category">Category: <span>{product.category}</span></p>
+                <p className="product-availability">Availability: {product.availability ? 'In Stock' : 'Out of Stock'}</p>
                 <div className="product-rating-detail">
                     <span id="productDetailRatingStars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
                     (<span id="productDetailReviewCount">XX</span> Reviews)
                 </div>
 
                 <p className="product-description" id="productDetailDescription">
-                    [Full Product Description goes here. This should be a detailed paragraph or
-                    multiple paragraphs explaining the features, benefits, and specifications of the product.
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.]
+                    {product.description}
                 </p>
 
                 <button className="add-to-cart-btn">Add to Cart</button>

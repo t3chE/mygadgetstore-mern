@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
-import { getProducts } from '../utils/api'; // Adjust the import path as necessary
-import { Link } from 'react-router-dom';
+import { getProducts } from '../utils/api';
+import { useParams } from 'react-router-dom'; // Add this import
 
 function ProductList() {
+    const { categoryName } = useParams(); // Get category from URL
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -16,7 +17,6 @@ function ProductList() {
                 setProducts(data);
                 setError(null);
             } catch (err) {
-                console.error("Error fetching products:", err);
                 setError("Failed to load products. Please try again later.");
             } finally {
                 setLoading(false);
@@ -25,25 +25,27 @@ function ProductList() {
         fetchData();
     }, []);
 
-    if (loading) {
-        return <div className="loading-indicator">Loading products...</div>;
-    }
+    // Filter products by category if categoryName is present
+    const filteredProducts = categoryName
+        ? products.filter(
+            p => p.category && p.category.toLowerCase().replace(/\s/g, '-') === categoryName.toLowerCase()
+        )
+        : products;
 
-    if (error) {
-        return <div className="error-message">{error}</div>;
-    }
-
-    if (products.length === 0) {
-        return <div className="no-products-message">No products found.</div>;
-    }
+    if (loading) return <div className="loading-indicator">Loading products...</div>;
+    if (error) return <div className="error-message">{error}</div>;
+    if (filteredProducts.length === 0) return <div className="no-products-message">No products found.</div>;
 
     return (
         <main>
             <div className="main-content-container">
-                {/* Header section with title and sort options */}
                 <div className="product-list-header">
-                            <h2 className="page-title">Explore Our Products</h2>
-                            <section className="sort-options">
+                    <h2 className="page-title">
+                        {categoryName
+                            ? `Category: ${categoryName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`
+                            : 'Explore Our Products'}
+                    </h2>
+                    <section className="sort-options">
                                 <label htmlFor="sortSelect">Sort By:</label> {/* Added a label for accessibility */}
                                 <select id="sortSelect" className="sort-dropdown">
                                     <option value="default">Default</option>
@@ -53,11 +55,10 @@ function ProductList() {
                                     <option value="name-desc">Name: Z-A</option>
                                 </select>
                             </section>
-                        </div>            
-                {/* This section will now directly contain the ProductCards */}
+                </div>
                 <section id="product-list" className="product-grid">
-                    {products.map(product => (
-                        <ProductCard key={product.id} product={product} />
+                    {filteredProducts.map(product => (
+                        <ProductCard key={product._id || product.id} product={product} />
                     ))}
                 </section>
             </div>

@@ -209,6 +209,7 @@ function AdminPage() {
                                 <option value="Smartphones">Smartphones</option>
                                 <option value="Headphones">Headphones</option>
                                 <option value="Cameras">Cameras</option>
+                                <option value="Smartwatches">Smartwatches</option>
                             </select>
                             {errors.category && <span className="error-message">{errors.category}</span>}
                         </div>

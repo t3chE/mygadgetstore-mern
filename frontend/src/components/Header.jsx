@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Use Link for navigation instead of <a> tags
+import { Link, NavLink } from 'react-router-dom'; // Use Link for navigation instead of <a> tags
 
 function Header() {
     return (
@@ -17,12 +17,55 @@ function Header() {
                 {/* Navigation links */} 
                 <nav className="main-nav">
                     <ul className="nav-list">
-                        <li><Link to="/" className="nav-link">Home</Link></li>
-                        <li><Link to="/category/laptops" className="nav-link">Laptops</Link></li>
-                        <li><Link to="/category/smartphones" className="nav-link">Smartphones</Link></li>
-                        <li><Link to="/category/headphones" className="nav-link">Headphones</Link></li>
-                        <li><Link to="/category/cameras" className="nav-link">Cameras</Link></li>
-                        <li><Link to="/products" className="nav-link">All Products</Link></li>
+                        <li>
+                            <NavLink
+                                to="/"
+                                className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+                                end
+                            >
+                                Home
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/category/laptops"
+                                className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+                            >
+                                Laptops
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/category/smartphones"
+                                className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+                            >
+                                Smartphones
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/category/headphones"
+                                className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+                            >
+                                Headphones
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/category/cameras"
+                                className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+                            >
+                                Cameras
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/category/smartwatches"
+                                className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+                            >
+                                Smartwatches
+                            </NavLink>
+                        </li>
                     </ul>
                 </nav>     
             </div>
