@@ -13,9 +13,13 @@ export async function getProductById(id) {
 }
 
 export async function addProduct(product) {
+    const token = localStorage.getItem('token');
     const res = await fetch(BASE_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // Add this line
+        },
         body: JSON.stringify(product),
     });
     if (!res.ok) throw new Error('Failed to add product');
@@ -23,9 +27,13 @@ export async function addProduct(product) {
 }
 
 export async function updateProduct(id, productData) {
+    const token = localStorage.getItem('token');
     const res = await fetch(`${BASE_URL}/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // Add this line
+        },
         body: JSON.stringify(productData)
     });
     if (!res.ok) throw new Error('Failed to update product');
@@ -33,7 +41,13 @@ export async function updateProduct(id, productData) {
 }
 
 export async function deleteProduct(id) {
-    const res = await fetch(`${BASE_URL}/${id}`, { method: 'DELETE' });
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${BASE_URL}/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}` // Add this line
+        }
+    });
     if (!res.ok) throw new Error('Failed to delete product');
     return res.json();
 }

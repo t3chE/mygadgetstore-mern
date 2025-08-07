@@ -39,6 +39,11 @@ function ProductDetail() {
         }
     };
 
+    const reviewCount = product && product.reviews ? product.reviews.length : 0;
+    const averageRating = reviewCount
+        ? (product.reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount).toFixed(1)
+        : 0;
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
     if (!product) return null;
@@ -59,8 +64,18 @@ function ProductDetail() {
                 <p className="product-category">Category: <span>{product.category}</span></p>
                 <p className="product-availability">Availability: {product.availability ? 'In Stock' : 'Out of Stock'}</p>
                 <div className="product-rating-detail">
-                    <span id="productDetailRatingStars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
-                    (<span id="productDetailReviewCount">XX</span> Reviews)
+                    <span>
+                        {averageRating} / 5&nbsp;
+                        {[1,2,3,4,5].map(star => (
+                            <span
+                                key={star}
+                                style={{ color: star <= Math.round(averageRating) ? '#f5b301' : '#ccc', fontSize: '1.2rem' }}
+                            >
+                                &#9733;
+                            </span>
+                        ))}
+                    </span>
+                    (<span id="productDetailReviewCount">{reviewCount}</span> Reviews)
                 </div>
 
                 <p className="product-description" id="productDetailDescription">
