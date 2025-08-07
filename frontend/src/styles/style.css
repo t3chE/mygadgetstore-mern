@@ -975,5 +975,74 @@ select {
     }
 }
 
+/* Admin Login Page */
+.admin-login-container {
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.admin-login-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.admin-login-container form > div {
+  margin-bottom: 1rem;
+}
+
+.admin-login-container label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.admin-login-container input[type="text"],
+.admin-login-container input[type="password"] {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.admin-login-container .error-message {
+  color: #c62828;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.admin-login-container button[type="submit"] {
+  width: 100%;
+  padding: 0.7rem;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.admin-login-container button[type="submit"]:hover {
+  background: #174ea6;
+}
+
+.logout-btn {
+  background: #c62828;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+.logout-btn:hover {
+  background: #a31515;
+}
+
 
 

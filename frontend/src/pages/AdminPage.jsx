@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { addProduct, getProducts, deleteProduct, updateProduct } from '../utils/api';
+import { useNavigate } from 'react-router-dom';
 
 function AdminPage() {
     const [form, setForm] = useState({
@@ -15,6 +16,7 @@ function AdminPage() {
     const [success, setSuccess] = useState('');
     const [editingId, setEditingId] = useState(null);
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
     // Fetch products on mount
     useEffect(() => {
@@ -126,9 +128,16 @@ function AdminPage() {
         }
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('isAdmin');
+        navigate('/admin-login');
+    };
+
     return (
         <div className="admin-page">
             <div className="admin-container">
+                <button className="logout-btn" onClick={handleLogout}>Logout</button>
                 <section className="admin-form-section">
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
