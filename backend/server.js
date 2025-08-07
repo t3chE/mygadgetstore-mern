@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./src/config/db');
 const productRoutes = require('./src/routes/productRoutes');
+const authRoutes = require('./src/routes/authRoutes'); // Add this line
 const errorHandler = require('./src/middleware/errorHandler');
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 
 app.use('/api/products', productRoutes);
+app.use('/api/auth', authRoutes); // Add this line before errorHandler
 
 app.use(errorHandler);
 

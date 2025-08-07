@@ -1039,6 +1039,7 @@ select {
   font-size: 1rem;
   cursor: pointer;
   margin-bottom: 1rem;
+  transition: background 0.2s;
 }
 .logout-btn:hover {
   background: #a31515;
