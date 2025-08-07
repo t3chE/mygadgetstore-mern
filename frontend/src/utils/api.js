@@ -37,3 +37,13 @@ export async function deleteProduct(id) {
     if (!res.ok) throw new Error('Failed to delete product');
     return res.json();
 }
+
+export async function addReview(productId, review) {
+    const res = await fetch(`http://localhost:5000/api/products/${productId}/reviews`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(review)
+    });
+    if (!res.ok) throw new Error('Failed to add review');
+    return res.json();
+}

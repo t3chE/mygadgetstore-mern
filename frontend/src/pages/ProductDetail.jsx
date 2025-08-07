@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getProductById } from '../utils/api';
+import { getProductById, addReview } from '../utils/api';
 
 function ProductDetail() {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [showReviewForm, setShowReviewForm] = useState(false);
+    const [rating, setRating] = useState(0);
+    const [reviewText, setReviewText] = useState('');
 
     useEffect(() => {
         async function fetchProduct() {
@@ -21,6 +24,20 @@ function ProductDetail() {
         }
         fetchProduct();
     }, [id]);
+
+    const handleReviewSubmit = async () => {
+        try {
+            await addReview(product._id, { rating, text: reviewText });
+            setShowReviewForm(false);
+            setRating(0);
+            setReviewText('');
+            // Optionally, refresh product data to show new review
+            const updatedProduct = await getProductById(product._id);
+            setProduct(updatedProduct);
+        } catch (err) {
+            alert('Failed to submit review');
+        }
+    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
@@ -57,22 +74,57 @@ function ProductDetail() {
         <section className="product-reviews-section">
             <h2>Customer Reviews</h2>
             <div className="reviews-list" id="productReviewsList">
-                <article className="review-item">
-                    <h4 className="reviewer-name">Reviewer Name 1</h4>
-                    <div className="review-rating">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
-                    <p className="review-date">Date: July 5, 2025</p>
-                    <p className="review-text">"This product is amazing! Exceeded my expectations in every way. Highly recommend it."</p>
-                </article>
-
-                <article className="review-item">
-                    <h4 className="reviewer-name">Reviewer Name 2</h4>
-                    <div className="review-rating">&#9733;&#9733;&#9733;&#9734;&#9734;</div>
-                    <p className="review-date">Date: June 28, 2025</p>
-                    <p className="review-text">"Good product, but the battery life could be better. Still happy with my purchase."</p>
-                </article>
+                {product.reviews && product.reviews.length > 0 ? (
+                    product.reviews.map((review, idx) => (
+                        <article className="review-item" key={idx}>
+                            <div className="review-rating">
+                                {[1,2,3,4,5].map(star => (
+                                    <span
+                                        key={star}
+                                        style={{ color: star <= review.rating ? '#f5b301' : '#ccc', fontSize: '1.2rem' }}
+                                    >
+                                        &#9733;
+                                    </span>
+                                ))}
+                            </div>
+                            <p className="review-date">
+                                {review.date ? new Date(review.date).toLocaleDateString() : ''}
+                            </p>
+                            <p className="review-text">{review.text}</p>
+                        </article>
+                    ))
+                ) : (
+                    <p>No reviews yet. Be the first to write one!</p>
+                )}
             </div>
-            <button className="write-review-btn">Write a Review</button>
+            <button className="write-review-btn" onClick={() => setShowReviewForm(true)}>
+                Write a Review
+            </button>
         </section>
+        {showReviewForm && (
+    <div className="review-modal">
+        <h3>Write a Review</h3>
+        <div className="star-rating">
+            {[1,2,3,4,5].map(star => (
+                <span
+                    key={star}
+                    style={{ cursor: 'pointer', color: star <= rating ? '#f5b301' : '#ccc', fontSize: '1.5rem' }}
+                    onClick={() => setRating(star)}
+                >
+                    &#9733;
+                </span>
+            ))}
+        </div>
+        <textarea
+            value={reviewText}
+            onChange={e => setReviewText(e.target.value)}
+            placeholder="Your review..."
+            rows={4}
+        />
+        <button onClick={handleReviewSubmit}>Submit Review</button>
+        <button onClick={() => setShowReviewForm(false)}>Cancel</button>
+    </div>
+)}
     </main>
     );
 }

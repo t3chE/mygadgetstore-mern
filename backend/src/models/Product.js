@@ -7,7 +7,14 @@ const productSchema = new mongoose.Schema({
     price: { type: Number, required: true },
     category: { type: String, required: true },
     status: { type: String, required: true },
-    stock: { type: Number, default: 1 }
+    stock: { type: Number, default: 1 },
+    reviews: [
+        {
+            rating: { type: Number, required: true },
+            text: { type: String, required: true },
+            date: { type: Date, default: Date.now }
+        }
+    ]
 });
 
 module.exports = mongoose.model('Product', productSchema);

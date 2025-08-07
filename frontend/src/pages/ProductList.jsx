@@ -8,6 +8,7 @@ function ProductList() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [sortOption, setSortOption] = useState('default');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,6 +33,17 @@ function ProductList() {
         )
         : products;
 
+    let sortedProducts = [...filteredProducts];
+    if (sortOption === 'price-asc') {
+        sortedProducts.sort((a, b) => a.price - b.price);
+    } else if (sortOption === 'price-desc') {
+        sortedProducts.sort((a, b) => b.price - a.price);
+    } else if (sortOption === 'name-asc') {
+        sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortOption === 'name-desc') {
+        sortedProducts.sort((a, b) => b.name.localeCompare(a.name));
+    }
+
     if (loading) return <div className="loading-indicator">Loading products...</div>;
     if (error) return <div className="error-message">{error}</div>;
     if (filteredProducts.length === 0) return <div className="no-products-message">No products found.</div>;
@@ -47,7 +59,12 @@ function ProductList() {
                     </h2>
                     <section className="sort-options">
                                 <label htmlFor="sortSelect">Sort By:</label> {/* Added a label for accessibility */}
-                                <select id="sortSelect" className="sort-dropdown">
+                                <select
+                                    id="sortSelect"
+                                    className="sort-dropdown"
+                                    value={sortOption}
+                                    onChange={e => setSortOption(e.target.value)}
+                                >
                                     <option value="default">Default</option>
                                     <option value="price-asc">Price: Low to High</option>
                                     <option value="price-desc">Price: High to Low</option>
@@ -57,9 +74,9 @@ function ProductList() {
                             </section>
                 </div>
                 <section id="product-list" className="product-grid">
-                    {filteredProducts.map(product => (
-                        <ProductCard key={product._id || product.id} product={product} />
-                    ))}
+                    {sortedProducts.map(product => (
+    <ProductCard key={product._id || product.id} product={product} />
+))}
                 </section>
             </div>
         </main>

@@ -28,7 +28,7 @@ function ProductCard({ product }) {
                         {product.name}
                     </Link>
                 </h3>
-                <p className="product-price">${product.price.toFixed(2)}</p>
+                <p className="product-price">£{product.price.toFixed(2)}</p>
                 <button className="add-to-cart-button">Add to Cart</button>
             </div>
         </div>
