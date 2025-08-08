@@ -11,6 +11,8 @@ import AdminPage from './pages/AdminPage';
 import AdminLogin from './pages/AdminLogin';
 import ProductForm from './pages/ProductForm'; // <-- NEW: Assuming you'll create this component
 import NotFoundPage from './pages/NotFoundPage'; // <-- NEW: Assuming you'll create this component
+import { CartProvider } from './context/CartContext';
+import Cart from './components/Cart';
 
 function RequireAdmin({ children }) {
     const token = localStorage.getItem('token');
@@ -23,34 +25,37 @@ function RequireAdmin({ children }) {
 
 function App() {
   return (
-    <Router>
-      <Header /> {/* Header will be consistent across pages */}
-      <main className="main-content container"> {/* Adjust container as needed */}
-        <Routes>
-          <Route path="/" element={<ProductList />} />
-          <Route path="/products/:id" element={<ProductDetail />} />
-          <Route path="/admin-login" element={<AdminLogin />} />
-          <Route
-              path="/admin"
-              element={
-                  <RequireAdmin>
-                      <AdminPage />
-                  </RequireAdmin>
-              }
-          />
-          {/* Admin routes: It's good practice to group them or place them logically */}
-          {/* The /add route for creating a new product */}
-          <Route path="/add" element={<ProductForm />} />
-          {/* The /edit/:id route for updating an existing product */}
-          <Route path="/edit/:id" element={<ProductForm />} />
-          <Route path="/category/:categoryName" element={<ProductList />} />
+    <CartProvider>
+      <Router>
+        <Header /> {/* Header will be consistent across pages */}
+        <main className="main-content container"> {/* Adjust container as needed */}
+          <Routes>
+            <Route path="/" element={<ProductList />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
+            <Route path="/admin-login" element={<AdminLogin />} />
+            <Route
+                path="/admin"
+                element={
+                    <RequireAdmin>
+                        <AdminPage />
+                    </RequireAdmin>
+                }
+            />
+            {/* Admin routes: It's good practice to group them or place them logically */}
+            {/* The /add route for creating a new product */}
+            <Route path="/add" element={<ProductForm />} />
+            {/* The /edit/:id route for updating an existing product */}
+            <Route path="/edit/:id" element={<ProductForm />} />
+            <Route path="/category/:categoryName" element={<ProductList />} />
+            <Route path="/cart" element={<Cart />} />
 
-           {/* Catch-all 404 route - ALWAYS place this last */}
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </main>
-      <Footer /> {/* Footer will be consistent across pages */}
-    </Router>
+             {/* Catch-all 404 route - ALWAYS place this last */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </main>
+        <Footer /> {/* Footer will be consistent across pages */}
+      </Router>
+    </CartProvider>
   );
 }
 

@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom'; // Use Link for navigation instead of <a> tags
+import { useCart } from '../context/CartContext';
 
 function Header() {
+    const { cart } = useCart();
+
     return (
     <header className="main-header">
         <div className="container header-flex">
@@ -71,7 +74,20 @@ function Header() {
             </div>
 
             {/* Search bar and admin link */}
-            <div className="admin-link-container">
+            <div className="admin-link-container" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <Link to="/cart" className="cart-link" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                  {/* Shopping bag SVG icon */}
+                  <span style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}>
+                      <path d="M6 2l1.5 2h9L18 2" />
+                      <rect x="3" y="4" width="18" height="18" rx="2" />
+                      <path d="M9 10v2a3 3 0 0 0 6 0v-2" />
+                    </svg>
+                    {cart.items.length > 0 && (
+                      <span className="cart-badge" style={{ left: '-18px', right: 'auto', top: '-8px' }}>{cart.items.reduce((sum, item) => sum + item.quantity, 0)}</span>
+                    )}
+                  </span>
+                </Link>
                 <Link to="/admin" className="admin-link">Admin</Link>
             </div>
         </div>
