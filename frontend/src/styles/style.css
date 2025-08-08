@@ -2,7 +2,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
 
 /* General Body Styles */
 body {
@@ -16,7 +15,6 @@ body {
     min-height: 100vh;
     color: #333;
     width: 100%;
-}
 
 h1, h2, h3 {
     color: #333; /* Using direct color for now, ensure var(--text-color-dark) is defined */
@@ -540,6 +538,12 @@ select {
     max-width: 50rem; /* Limit width for larger screens */
     margin-bottom: 0;
     justify-content: center;
+    position: relative;
+}
+
+.admin-product-form {
+    width: 700px; /* or your preferred width */
+    margin: 0 auto;
 }
 
 .admin-table-section {
@@ -593,7 +597,11 @@ select {
     display: none; /* Hidden by default, shown by JS */
 }
 
-.form-buttons button {
+.form-buttons {
+    display: flex;
+    gap: 10px;
+}
+
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -601,6 +609,41 @@ select {
     font-size: 1em;
     margin-right: 10px;
     transition: background-color 0.3s ease;
+}
+
+.form-buttons .logout-btn {
+    margin-right: 0 !important;
+    background: #c62828 !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 5px !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 1rem !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s !important;
+    margin-left: auto !important;
+    position: static !important;
+}
+.form-buttons .logout-btn:hover {
+    background-color: #a31515 !important;
+}
+
+.form-buttons .logout-btn {
+    margin-right: 0 !important;
+    background: #c62828;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-left: auto;
+    position: static;
+}
+.form-buttons .logout-btn:hover {
+    background-color: #a31515 !important;
+}
 }
 
 .form-buttons button[type="submit"] {
@@ -627,6 +670,23 @@ select {
 
 .form-buttons button[type="button"]:hover {
     background-color: #5a6268;
+}
+
+.logout-btn {
+    background: #c62828;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-left: auto;
+    margin-right: 0;
+    position: static;
+}
+.logout-btn:hover {
+    background: #a31515;
 }
 
 
@@ -1030,20 +1090,7 @@ select {
   background: #174ea6;
 }
 
-.logout-btn {
-  background: #c62828;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 0.5rem 1.2rem;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-bottom: 1rem;
-  transition: background 0.2s;
-}
-.logout-btn:hover {
-  background: #a31515;
-}
+
 
 
 

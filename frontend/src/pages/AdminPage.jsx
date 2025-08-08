@@ -39,12 +39,33 @@ function AdminPage() {
 
     const validateForm = () => {
         const newErrors = {};
-        if (!form.name.trim()) newErrors.name = 'Product name is required.';
-        if (!form.images.trim()) newErrors.images = 'Image filename is required.';
-        if (!form.description.trim()) newErrors.description = 'Description is required.';
-        if (!form.price || isNaN(form.price) || parseFloat(form.price) <= 0) newErrors.price = 'Price must be a positive number.';
-        if (!form.category) newErrors.category = 'Category is required.';
-        if (!form.status) newErrors.status = 'Status is required.';
+
+        if (!form.name || form.name.trim().length < 3) {
+            newErrors.name = "Product name must be at least 3 characters.";
+        }
+
+        if (!form.images || form.images.trim().length === 0) {
+            newErrors.images = "Image field is required.";
+        } else if (!/^([\w\-\/\.]+|https?:\/\/[\w\-\.\/]+)(,([\w\-\/\.]+|https?:\/\/[\w\-\.\/]+))*$/.test(form.images)) {
+            newErrors.images = "Image format is invalid.";
+        }
+
+        if (!form.description || form.description.trim().length < 10) {
+            newErrors.description = "Description must be at least 10 characters.";
+        }
+
+        if (!form.price || isNaN(form.price) || Number(form.price) <= 0) {
+            newErrors.price = "Price must be a number greater than 0.";
+        }
+
+        if (!form.category) {
+            newErrors.category = "Category is required.";
+        }
+
+        if (!form.status) {
+            newErrors.status = "Status is required.";
+        }
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -137,9 +158,8 @@ function AdminPage() {
     return (
         <div className="admin-page">
             <div className="admin-container">
-                <button className="logout-btn" onClick={handleLogout}>Logout</button>
-                <section className="admin-form-section">
-                    <form onSubmit={handleSubmit}>
+                <section className="admin-form-section" style={{ position: 'relative' }}>
+                    <form className="admin-product-form" onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="name">Product Name:</label>
                             <input
@@ -149,6 +169,7 @@ function AdminPage() {
                                 value={form.name}
                                 onChange={handleChange}
                                 required
+                                autoComplete="name"
                             />
                             {errors.name && <span className="error-message">{errors.name}</span>}
                         </div>
@@ -162,6 +183,7 @@ function AdminPage() {
                                 value={form.images}
                                 onChange={handleChange}
                                 required
+                                autoComplete="photo"
                             />
                             {errors.images && <span className="error-message">{errors.images}</span>}
                             {/* Image preview */}
@@ -187,6 +209,7 @@ function AdminPage() {
                                 onChange={handleChange}
                                 rows={5}
                                 required
+                                autoComplete="description"
                             />
                             {errors.description && <span className="error-message">{errors.description}</span>}
                         </div>
@@ -201,6 +224,7 @@ function AdminPage() {
                                 value={form.price}
                                 onChange={handleChange}
                                 required
+                                autoComplete="off"
                             />
                             {errors.price && <span className="error-message">{errors.price}</span>}
                         </div>
@@ -212,6 +236,7 @@ function AdminPage() {
                                 required
                                 value={form.category}
                                 onChange={handleChange}
+                                autoComplete="off"
                             >
                                 <option value="">Select a Category</option>
                                 <option value="Laptops">Laptops</option>
@@ -230,6 +255,7 @@ function AdminPage() {
                                 value={form.status}
                                 onChange={handleChange}
                                 required
+                                autoComplete="off"
                             >
                                 <option value="In Stock">In Stock</option>
                                 <option value="Low Stock">Low Stock</option>
@@ -237,7 +263,7 @@ function AdminPage() {
                             </select>
                             {errors.status && <span className="error-message">{errors.status}</span>}
                         </div>
-                        <div className="form-buttons">
+                        <div className="form-buttons" style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', paddingRight: 0 }}>
                             <button type="submit">{editingId ? 'Update Product' : 'Add Product'}</button>
                             <button type="button" onClick={handleClear}>Clear</button>
                             {editingId && (
@@ -258,6 +284,7 @@ function AdminPage() {
                                     Cancel Edit
                                 </button>
                             )}
+                            <button className="logout-btn" type="button" onClick={handleLogout}>Logout</button>
                         </div>
                         {error && <div className="error-message">{error}</div>}
                         {success && <div className="success-message">{success}</div>}
