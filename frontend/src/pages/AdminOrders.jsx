@@ -82,7 +82,11 @@ function AdminOrders() {
     <div className="admin-orders-page">
       <h2>Order Management</h2>
       <button className="return-admin-btn" onClick={() => window.location.href = '/admin'} style={{ marginRight: '1rem' }}>Return to Admin Page</button>
-      <button className="logout-btn" type="button" onClick={handleLogout}>Logout</button>
+      <button className="logout-btn" type="button" onClick={() => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('isAdmin');
+        window.location.href = '/admin-login';
+      }}>Logout</button>
       {loading ? (
         <div>Loading orders...</div>
       ) : error ? (
