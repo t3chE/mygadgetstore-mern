@@ -13,6 +13,7 @@ import ProductForm from './pages/ProductForm'; // <-- NEW: Assuming you'll creat
 import NotFoundPage from './pages/NotFoundPage'; // <-- NEW: Assuming you'll create this component
 import { CartProvider } from './context/CartContext';
 import Cart from './components/Cart';
+import AdminOrders from './pages/AdminOrders';
 
 function RequireAdmin({ children }) {
     const token = localStorage.getItem('token');
@@ -48,6 +49,14 @@ function App() {
             <Route path="/edit/:id" element={<ProductForm />} />
             <Route path="/category/:categoryName" element={<ProductList />} />
             <Route path="/cart" element={<Cart />} />
+            <Route
+              path="/admin-orders"
+              element={
+                  <RequireAdmin>
+                      <AdminOrders />
+                  </RequireAdmin>
+              }
+            />
 
              {/* Catch-all 404 route - ALWAYS place this last */}
             <Route path="*" element={<NotFoundPage />} />

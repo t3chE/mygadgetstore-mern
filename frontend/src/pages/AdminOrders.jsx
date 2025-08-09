@@ -71,9 +71,18 @@ function AdminOrders() {
     }
   };
 
+  const handleLogout = () => {
+    // Implement logout functionality here
+    console.log('Logging out...');
+    // Redirect to login page or perform any other logout actions
+    window.location.href = '/login';
+  };
+
   return (
     <div className="admin-orders-page">
       <h2>Order Management</h2>
+      <button className="return-admin-btn" onClick={() => window.location.href = '/admin'} style={{ marginRight: '1rem' }}>Return to Admin Page</button>
+      <button className="logout-btn" type="button" onClick={handleLogout}>Logout</button>
       {loading ? (
         <div>Loading orders...</div>
       ) : error ? (
@@ -99,7 +108,7 @@ function AdminOrders() {
                 <td>£{order.total.toFixed(2)}</td>
                 <td>{order.status || 'Pending'}</td>
                 <td>
-                  <button onClick={() => handleView(order)}>View</button>
+                  <button className="view-btn" onClick={() => handleView(order)}>View</button>
                   <button onClick={() => handleDelete(order._id)}>Delete</button>
                 </td>
               </tr>

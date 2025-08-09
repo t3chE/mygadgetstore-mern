@@ -750,6 +750,20 @@ select {
     background-color: #c82333;
 }
 
+.product-table button.view-btn {
+  background-color: #ffc107;
+  color: #333;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+  transition: background-color 0.3s ease;
+}
+.product-table button.view-btn:hover {
+  background-color: #e0a800;
+}
+
 .status-badge {
     padding: 4px 8px;
     border-radius: 4px;
@@ -1222,6 +1236,137 @@ select {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Admin specific styles */
+.admin-orders-link {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.admin-orders-link:hover {
+  background: #0056b3;
+}
+.return-admin-btn {
+  background: #6c757d;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-bottom: 1rem;
+}
+.return-admin-btn:hover {
+  background: #5a6268;
+}
+
+/* Order Management Page Styles */
+.admin-orders-page {
+  max-width: 900px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 2rem;
+}
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.orders-table th, .orders-table td {
+  border: 1px solid #eaeaea;
+  padding: 12px 10px;
+  text-align: left;
+}
+.orders-table th {
+  background: #007bff;
+  color: #fff;
+  font-weight: 600;
+}
+.orders-table tr:nth-child(even) {
+  background: #f2f6fa;
+}
+.orders-table tr:hover {
+  background: #e3eaf3;
+}
+.orders-table button {
+  background: #c62828;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: background 0.2s;
+}
+.orders-table button:hover {
+  background: #a31515;
+}
+.orders-table button.view-btn {
+  background-color: #ffc107;
+  color: #333;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+  transition: background-color 0.3s ease;
+}
+.orders-table button.view-btn:hover {
+  background-color: #e0a800;
+}
+.order-details-modal {
+  background: #f7f7ff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin: 2rem auto;
+  max-width: 500px;
+  text-align: left;
+}
+.order-details-modal h3 {
+  margin-top: 0;
+}
+.order-details-modal ul {
+  margin: 0 0 1rem 0;
+  padding-left: 1.2rem;
+}
+.order-details-modal select {
+  margin-right: 1rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+.order-details-modal button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 0.7rem;
+}
+.order-details-modal button:hover {
+  background: #0056b3;
+}
+.action-message {
+  margin-top: 1rem;
+  color: #007bff;
+  font-size: 1rem;
 }
 
 

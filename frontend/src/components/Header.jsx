@@ -1,9 +1,11 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom'; // Use Link for navigation instead of <a> tags
+import { Link, NavLink, useLocation } from 'react-router-dom'; // Use Link for navigation instead of <a> tags
 import { useCart } from '../context/CartContext';
 
 function Header() {
     const { cart } = useCart();
+    const location = useLocation();
+    const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
     return (
     <header className="main-header">
@@ -88,7 +90,11 @@ function Header() {
                     )}
                   </span>
                 </Link>
-                <Link to="/admin" className="admin-link">Admin</Link>
+                {isAdmin && location.pathname.startsWith('/admin') ? (
+                  <button className="admin-orders-link" onClick={() => window.location.href = '/admin-orders'}>Manage Orders</button>
+                ) : (
+                  <Link to="/admin" className="admin-link">Admin</Link>
+                )}
             </div>
         </div>
     </header> 
