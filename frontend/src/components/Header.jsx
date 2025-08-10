@@ -1,17 +1,22 @@
 import React from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom'; // Use Link for navigation instead of <a> tags
 import { useCart } from '../context/CartContext';
+import SearchBox from './SearchBox';
 
 function Header() {
     const { cart } = useCart();
     const location = useLocation();
     const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
+    const handleSearch = (query) => {
+        // TODO: Implement search logic (e.g., navigate or filter products)
+        console.log('Search:', query);
+    };
     return (
     <header className="main-header">
         <div className="container header-flex">
             <div className="search-bar">
-                <input type="text" placeholder="Search products..." className="search-input" id="search" />
+                <SearchBox onSearch={handleSearch} />
             </div>
 
             <div className="logo-nav">
