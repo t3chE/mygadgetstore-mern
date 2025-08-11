@@ -15,6 +15,7 @@ function ProductForm() {
     const [errors, setErrors] = useState({});
     const [submitError, setSubmitError] = useState('');
     const [submitSuccess, setSubmitSuccess] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -40,6 +41,7 @@ function ProductForm() {
         setSubmitError('');
         setSubmitSuccess('');
         if (validateForm()) {
+            setLoading(true);
             try {
                 // Prepare product data for backend
                 const productData = {
@@ -57,8 +59,9 @@ function ProductForm() {
                 setSubmitSuccess('Product added successfully!');
                 handleClear();
             } catch (err) {
-                setSubmitError(err.message || 'Failed to add product.');
+                setSubmitError(err.message || (err.response && err.response.data && err.response.data.error) || 'Failed to add product.');
             }
+            setLoading(false);
         }
     };
 
@@ -78,6 +81,13 @@ function ProductForm() {
 
     return (
         <form id="productForm" className="product-form" onSubmit={handleSubmit}>
+            {/* Image preview */}
+            {product.images && (
+              <div className="image-preview">
+                <img src={product.images.split(',')[0].trim()} alt="Preview" style={{ maxWidth: '120px', marginBottom: '1rem', borderRadius: '6px', border: '1px solid #eee' }} />
+              </div>
+            )}
+
             <div className="form-group">
                 <label htmlFor="productName">Product Name:</label>
                 <input
@@ -203,8 +213,9 @@ function ProductForm() {
                     type="submit"
                     id="submitBtn"
                     style={{ backgroundColor: '#2e7d32', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}
+                    disabled={loading}
                 >
-                    Add Product
+                    {loading ? <span className="spinner"></span> : 'Add Product'}
                 </button>
                 <button
                     type="button"
