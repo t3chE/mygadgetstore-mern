@@ -70,5 +70,93 @@
     "price": 399.99,
     "image": "images/snoop.png",
     "description": "Waterproof Action Camera with 5.3K60 Video, 27MP Photo + Compatability with HB-Series Lenses."
+  },
+  {
+    "id": "prod010",
+    "name": "PixelView Monitor",
+    "category": "laptops",
+    "price": 350.00,
+    "image": "images/pixelview.png",
+    "description": "27-inch 4K UHD monitor with a sleek, bezel-less design and vibrant color accuracy. Perfect for creative work or immersive entertainment."
+  },
+  {
+    "id": "prod011",
+    "name": "AuraBook 15",
+    "category": "laptops",
+    "price": 999.99,
+    "image": "images/aurabook15.png",
+    "description": "Lightweight and powerful laptop with a 15-inch Full HD display, Intel Core i7 processor, and a long-lasting battery for all-day productivity."
+  },
+  {
+    "id": "prod012",
+    "name": "Nova S22 Smartphone",
+    "category": "smartphones",
+    "price": 799.00,
+    "image": "images/novas22.png",
+    "description": "Powerful smartphone with a 120Hz AMOLED display, triple-camera system, and blazing-fast 5G connectivity. Available in multiple colors."
+  },
+  {
+    "id": "prod013",
+    "name": "Stratos Phone",
+    "category": "smartphones",
+    "price": 1099.99,
+    "image": "images/stratos.png",
+    "description": "High-end smartphone with a titanium frame, a stunning LTPO display, and the latest A16 Bionic chip for unparalleled performance."
+  },
+  {
+    "id": "prod014",
+    "name": "SoundSphere Headphones",
+    "category": "headphones",
+    "price": 249.99,
+    "image": "images/soundsphere.png",
+    "description": "Wireless headphones with spatial audio and adaptive EQ for a truly personalized listening experience. Up to 30 hours of battery life."
+  },
+  {
+    "id": "prod015",
+    "name": "AudioFlex Earbuds",
+    "category": "headphones",
+    "price": 79.50,
+    "image": "images/audioflex.png",
+    "description": "Sweat-resistant wireless earbuds with a secure fit and clear, balanced sound. Ideal for workouts and daily commutes."
+  },
+  {
+    "id": "prod016",
+    "name": "EOS R5 Camera",
+    "category": "cameras",
+    "price": 3899.00,
+    "image": "images/eosr5.png",
+    "description": "Professional mirrorless camera with 8K video recording, 45MP full-frame sensor, and advanced autofocus. The ultimate tool for content creators."
+  },
+  {
+    "id": "prod017",
+    "name": "MiniDrone Pro",
+    "category": "cameras",
+    "price": 599.00,
+    "image": "images/minidrone.png",
+    "description": "Compact and foldable drone with a 4K camera, intelligent flight modes, and a 30-minute flight time. Capture breathtaking aerial shots with ease."
+  },
+  {
+    "id": "prod018",
+    "name": "ChronoWatch Classic",
+    "category": "smartwatches",
+    "price": 199.99,
+    "image": "images/chronowatch.png",
+    "description": "Elegant smartwatch with a classic design, fitness tracking, and a bright AMOLED display. Track your goals in style."
+  },
+  {
+    "id": "prod019",
+    "name": "Zenith Z-Watch",
+    "category": "smartwatches",
+    "price": 349.50,
+    "image": "images/zenithzwatch.png",
+    "description": "Premium smartwatch with advanced health sensors, GPS, and cellular connectivity. Stay connected and informed, even without your phone."
+  },
+  {
+    "id": "prod020",
+    "name": "OmniWatch",
+    "category": "smartwatches",
+    "price": 275.00,
+    "image": "images/omniwatch.png",
+    "description": "All-in-one smartwatch for the active user. Features a durable design, heart rate monitoring, and a built-in compass for your adventures."
   }
 ]
