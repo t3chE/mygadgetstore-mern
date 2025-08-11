@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
 import { getProducts } from '../utils/api';
 import { useParams } from 'react-router-dom'; // Add this import
+import { useSearch } from '../context/SearchContext';
 
 function ProductList() {
     const { categoryName } = useParams(); // Get category from URL
@@ -9,6 +10,7 @@ function ProductList() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [sortOption, setSortOption] = useState('default');
+    const { searchQuery } = useSearch();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,11 +29,21 @@ function ProductList() {
     }, []);
 
     // Filter products by category if categoryName is present
-    const filteredProducts = categoryName
+    let filteredProducts = categoryName
         ? products.filter(
             p => p.category && p.category.toLowerCase().replace(/\s/g, '-') === categoryName.toLowerCase()
         )
         : products;
+
+    // Further filter by search query from context
+    if (searchQuery && searchQuery.trim()) {
+        const q = searchQuery.trim().toLowerCase();
+        filteredProducts = filteredProducts.filter(
+            p =>
+                (p.name && p.name.toLowerCase().includes(q)) ||
+                (p.description && p.description.toLowerCase().includes(q))
+        );
+    }
 
     let sortedProducts = [...filteredProducts];
     if (sortOption === 'price-asc') {
