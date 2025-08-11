@@ -81,9 +81,9 @@ function Header() {
                 </nav>     
             </div>
 
-            {/* Search bar and admin link */}
-            <div className="admin-link-container" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <Link to="/cart" className="cart-link" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+            {/* Cart and admin link container - right aligned */}
+            <div className="admin-link-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '2.5rem', minWidth: '250px' }}>
+                <Link to="/cart" className="cart-link" style={{ position: 'relative', display: 'flex', alignItems: 'center', marginRight: '3rem' }}>
                   {/* Shopping bag SVG icon */}
                   <span style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}>
@@ -92,7 +92,7 @@ function Header() {
                       <path d="M9 10v2a3 3 0 0 0 6 0v-2" />
                     </svg>
                     {cart.items.length > 0 && (
-                      <span className="cart-badge" style={{ left: '-18px', right: 'auto', top: '-8px' }}>{cart.items.reduce((sum, item) => sum + item.quantity, 0)}</span>
+                      <span className="cart-badge" style={{ right: '-18px', left: 'auto', top: '-8px', position: 'absolute' }}>{cart.items.reduce((sum, item) => sum + item.quantity, 0)}</span>
                     )}
                   </span>
                 </Link>

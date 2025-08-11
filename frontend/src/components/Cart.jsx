@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { Link } from 'react-router-dom';
+import RemoveConfirmModal from './RemoveConfirmModal';
 
 function validateCustomer(customer) {
   const errors = {};
@@ -17,9 +19,19 @@ export default function Cart() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [orderDetails, setOrderDetails] = useState(null);
+  const [confirmRemoveId, setConfirmRemoveId] = useState(null);
 
   const handleRemove = (id) => {
-    dispatch({ type: 'REMOVE_ITEM', payload: id });
+    setConfirmRemoveId(id);
+  };
+
+  const confirmRemove = () => {
+    dispatch({ type: 'REMOVE_ITEM', payload: confirmRemoveId });
+    setConfirmRemoveId(null);
+  };
+
+  const cancelRemove = () => {
+    setConfirmRemoveId(null);
   };
 
   const handleQuantityChange = (id, quantity) => {
@@ -65,12 +77,26 @@ export default function Cart() {
   };
 
   if (cart.items.length === 0 && !orderDetails) {
-    return <div className="cart-empty">Your cart is empty.</div>;
+    return (
+      <div className="cart-empty">
+        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#bbb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '1rem' }}>
+          <rect x="3" y="4" width="18" height="16" rx="2" />
+          <path d="M6 2l1.5 2h9L18 2" />
+        </svg>
+        <div style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>Your cart is empty.</div>
+        <Link to="/" className="browse-products-btn">Browse Products</Link>
+      </div>
+    );
   }
 
   return (
     <div className="cart-container">
       <h2>Shopping Cart</h2>
+      <RemoveConfirmModal
+        show={!!confirmRemoveId}
+        onConfirm={confirmRemove}
+        onCancel={cancelRemove}
+      />
       {orderDetails ? (
         <div className="order-confirmation">
           <h3>Thank you for your order!</h3>
@@ -146,7 +172,9 @@ export default function Cart() {
                 <span className="spinner"></span>
               ) : 'Place Order'}
             </button>
-            {orderStatus && <div className="order-status">{orderStatus}</div>}
+            {orderStatus && (
+              <div className={`order-status-bar ${orderStatus.includes('success') ? 'success' : 'error'}`}>{orderStatus}</div>
+            )}
           </div>
         </>
       )}
