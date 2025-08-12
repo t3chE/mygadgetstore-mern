@@ -10,7 +10,7 @@ function ProductList() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [sortOption, setSortOption] = useState('default');
-    const { searchQuery } = useSearch();
+    const { searchQuery, setSearchQuery } = useSearch();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,6 +27,10 @@ function ProductList() {
         };
         fetchData();
     }, []);
+
+    useEffect(() => {
+        setSearchQuery('');
+    }, [categoryName, setSearchQuery]);
 
     // Filter products by category if categoryName is present
     let filteredProducts = categoryName
