@@ -27,7 +27,7 @@ function AdminPage() {
         try {
             const data = await getProducts();
             setProducts(data);
-        } catch (err) {
+        } catch {
             setError('Failed to load products.');
         }
     };
@@ -46,7 +46,7 @@ function AdminPage() {
 
         if (!form.images || form.images.trim().length === 0) {
             newErrors.images = "Image field is required.";
-        } else if (!/^([\w\-\/\.]+|https?:\/\/[\w\-\.\/]+)(,([\w\-\/\.]+|https?:\/\/[\w\-\.\/]+))*$/.test(form.images)) {
+        } else if (!/^([\w\-/.]+|https?:\/\/[\w\-./]+)(,\s*([\w\-/.]+|https?:\/\/[\w\-./]+))*$/.test(form.images)) {
             newErrors.images = "Image format is invalid.";
         }
 
@@ -74,6 +74,7 @@ function AdminPage() {
         e.preventDefault();
         setError('');
         setSuccess('');
+        setErrors({});
         if (!validateForm()) return; // Stop if validation fails
         try {
             const productData = {
@@ -121,14 +122,16 @@ function AdminPage() {
         });
         setError('');
         setSuccess('');
+        setErrors({});
     };
 
     const handleDelete = async (id) => {
         try {
             await deleteProduct(id);
             refreshProducts();
-        } catch (err) {
+        } catch {
             setError('Failed to delete product.');
+            setSuccess('');
         }
     };
 
