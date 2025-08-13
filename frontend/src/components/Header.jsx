@@ -82,7 +82,7 @@ function Header() {
             </div>
 
             {/* Cart and admin link container - right aligned */}
-            <div className="admin-link-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '2.5rem', minWidth: '250px' }}>
+            <div className="admin-link-container" style={{ display: 'flex', alignItems: 'center', gap: '2.5rem', minWidth: '250px' }}>
                 <Link to="/cart" className="cart-link" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                   {/* Shopping bag SVG icon */}
                   <span style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>

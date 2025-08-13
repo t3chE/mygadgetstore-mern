@@ -33,9 +33,10 @@ function ProductCard({ product }) {
         <div className="product-card">
             <Link to={`/products/${product._id || product.id}`}>
                 <img
-                    src={imagePath}
+                    src={product.image}
                     alt={product.name}
                     className="product-image"
+                    loading="lazy"
                 />
             </Link>
             <div className="product-card-content"> {/* Add a content wrapper for padding and flex */}
