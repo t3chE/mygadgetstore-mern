@@ -33,10 +33,11 @@ function ProductCard({ product }) {
         <div className="product-card">
             <Link to={`/products/${product._id || product.id}`}>
                 <img
-                    src={product.image}
+                    src={imagePath}
                     alt={product.name}
                     className="product-image"
                     loading="lazy"
+                    onError={e => { e.target.src = '/images/Placeholder.png'; }}
                 />
             </Link>
             <div className="product-card-content"> {/* Add a content wrapper for padding and flex */}
