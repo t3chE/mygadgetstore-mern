@@ -19,7 +19,7 @@ function AdminOrders() {
       const res = await fetch('http://localhost:5000/api/orders');
       const data = await res.json();
       setOrders(data);
-    } catch (err) {
+    } catch {
       setError('Failed to fetch orders.');
     }
     setLoading(false);
@@ -44,7 +44,7 @@ function AdminOrders() {
       if (res.ok) {
         setActionMsg('Order status updated.');
         fetchOrders();
-        setSelectedOrder(data);
+        setSelectedOrder(null);
       } else {
         setActionMsg(data.error || 'Failed to update order.');
       }
@@ -71,12 +71,6 @@ function AdminOrders() {
     }
   };
 
-  const handleLogout = () => {
-    // Implement logout functionality here
-    console.log('Logging out...');
-    // Redirect to login page or perform any other logout actions
-    window.location.href = '/login';
-  };
 
   return (
     <div className="admin-orders-page">
@@ -136,7 +130,13 @@ function AdminOrders() {
           </ul>
           <div>
             <label>Status: </label>
-            <select value={status} onChange={e => setStatus(e.target.value)}>
+            <select
+              id="order-status"
+              name="order-status"
+              value={status}
+              onChange={e => setStatus(e.target.value)}
+              autoComplete="status"
+            >
               <option value="Pending">Pending</option>
               <option value="Processing">Processing</option>
               <option value="Shipped">Shipped</option>

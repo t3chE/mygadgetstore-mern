@@ -16,7 +16,11 @@ const orderSchema = new mongoose.Schema({
     email: { type: String, required: true },
     address: { type: String, required: true },
   },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  status: {
+    type: String,
+    default: 'Pending'
+  }
 });
 
 module.exports = mongoose.model('Order', orderSchema);
