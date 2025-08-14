@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const bcrypt = require('bcryptjs');
+const { protectAdmin } = require('../middleware/auth');
 
 // Register
 router.post('/register', async (req, res, next) => {
@@ -34,4 +36,22 @@ router.post('/login', async (req, res, next) => {
     }
 });
 
+// TEMP: Allow unauthenticated admin password reset for 'admin' user only
+router.post('/change-password', async (req, res, next) => {
+    try {
+        const { username, newPassword } = req.body;
+        if (username !== 'admin') {
+            return res.status(403).json({ message: 'Only admin password can be reset this way.' });
+        }
+        const user = await User.findOne({ username });
+        if (!user || !user.isAdmin) {
+            return res.status(404).json({ message: 'Admin user not found' });
+        }
+        user.password = newPassword;
+        await user.save();
+        res.json({ message: 'Password changed successfully' });
+    } catch (error) {
+        next(error);
+    }
+});
 module.exports = router;
