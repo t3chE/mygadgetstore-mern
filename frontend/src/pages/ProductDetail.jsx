@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getProductById, addReview } from '../utils/api';
+import { getProductById, addReview, getProducts } from '../utils/api';
+import ProductCard from '../components/ProductCard';
 
 function ProductDetail() {
     const { id } = useParams();
@@ -10,13 +11,14 @@ function ProductDetail() {
     const [showReviewForm, setShowReviewForm] = useState(false);
     const [rating, setRating] = useState(0);
     const [reviewText, setReviewText] = useState('');
+    const [products, setProducts] = useState([]); // For related products
 
     useEffect(() => {
         async function fetchProduct() {
             try {
                 const data = await getProductById(id);
                 setProduct(data);
-            } catch (err) {
+            } catch {
                 setError('Product not found.');
             } finally {
                 setLoading(false);
@@ -24,6 +26,19 @@ function ProductDetail() {
         }
         fetchProduct();
     }, [id]);
+
+    useEffect(() => {
+        // Fetch all products for related products section
+        async function fetchProducts() {
+            try {
+                const data = await getProducts();
+                setProducts(data);
+            } catch (err) {
+                // handle error if needed
+            }
+        }
+        fetchProducts();
+    }, []);
 
     const handleReviewSubmit = async () => {
         try {
@@ -34,7 +49,7 @@ function ProductDetail() {
             // Optionally, refresh product data to show new review
             const updatedProduct = await getProductById(product._id);
             setProduct(updatedProduct);
-        } catch (err) {
+        } catch {
             alert('Failed to submit review');
         }
     };
@@ -43,6 +58,10 @@ function ProductDetail() {
     const averageRating = reviewCount
         ? (product.reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount).toFixed(1)
         : 0;
+
+    console.log('Current product:', product);
+    console.log('All products:', products);
+    console.log('Current category:', product && product.category);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
@@ -140,6 +159,27 @@ function ProductDetail() {
         <button onClick={() => setShowReviewForm(false)}>Cancel</button>
     </div>
 )}
+
+        {/* Related Products Section */}
+        {product && product.category && (
+          <section className="related-products-section">
+            <h2>Related Products</h2>
+            <div className="product-grid">
+              {products
+                .filter(
+                  p =>
+                    p.category &&
+                    product.category &&
+                    p.category.trim().toLowerCase() === product.category.trim().toLowerCase() &&
+                    p._id !== product._id
+                )
+                .slice(0, 4)
+                .map(related => (
+                  <ProductCard key={related._id || related.id} product={related} />
+                ))}
+            </div>
+          </section>
+        )}
     </main>
     );
 }
