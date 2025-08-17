@@ -96,6 +96,7 @@ npm run dev
 - Browse products and add items to your cart.
 - Proceed to checkout and place orders.
 - Admins can log in at `/admin-login` to manage products and orders.
+- Admin login password `admin` password `admin123`
 
 ## Configuration
 - MongoDB connection string and server port are set in `backend/.env`.
@@ -112,7 +113,7 @@ npm run dev
 - `DELETE /api/orders/:id` — Delete an order
 
 ## Screenshots
-<!-- Add screenshots or GIFs below -->
+
 - Homepage
 - Admin Dashboard
 
