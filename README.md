@@ -115,6 +115,8 @@ npm run dev
 ## Screenshots
 
 - Homepage
+- <img width="2547" height="1253" alt="myGadgetStore_Homepage" src="https://github.com/user-attachments/assets/6bc0712e-5dd3-49eb-9614-57b61b3a74be" />
+
 - Admin Dashboard
 
 ## Troubleshooting
