@@ -117,7 +117,10 @@ npm run dev
 - Homepage
 - <img width="2547" height="1253" alt="myGadgetStore_Homepage" src="https://github.com/user-attachments/assets/6bc0712e-5dd3-49eb-9614-57b61b3a74be" />
 
+
 - Admin Dashboard
+- <img width="2548" height="1260" alt="Screenshot 2025-08-26 172434" src="https://github.com/user-attachments/assets/38395f1f-60cb-401c-b4d2-9d9496d3c12c" />
+
 
 ## Troubleshooting
 - Ensure MongoDB is running.
